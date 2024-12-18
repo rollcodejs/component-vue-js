@@ -2,7 +2,7 @@ import { build, preview } from 'vite'
 import buildConfig from '../build.config.js'
 import { createConfig } from './createConfig.js'
 
-const PORT = 8080
+const PORT = 8081
 const HtmlPlugin = () => {
 	return {
 		name: 'html-transform',
@@ -32,7 +32,13 @@ const buildWatchHandler = (needsWatch) => {
 	})
 	buildConfig.forEach((buildItem) => {
 		const config = createConfig(buildItem, needsWatch)
-		build(config)
+		build({
+			...config,
+			build: {
+				...config.build,
+				minify: false,
+			},
+		})
 	})
 }
 

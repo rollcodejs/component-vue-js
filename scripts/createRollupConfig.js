@@ -1,3 +1,5 @@
+// 这个文件好像也没有用
+
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'

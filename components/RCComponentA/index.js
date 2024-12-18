@@ -1,9 +1,10 @@
 export { default } from './ComponentA.vue'
 
 export const meta = {
-	// name: 'RCComponentA',
+	name: 'RCComponentA',
 	author: 'testUser',
-	// label: 'RCComponentA',
+	// 这个还是保留吧，前端可以自己识别
+	label: '组件1',
 	setters: {
 		text: {
 			type: 'SimpleText',
@@ -12,5 +13,9 @@ export const meta = {
 				label: '文本输入',
 			},
 		},
+	},
+	actions: {
+		latestActive: 'none',
+		startDraw: 'json',
 	},
 }

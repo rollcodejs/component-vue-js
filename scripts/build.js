@@ -1,5 +1,5 @@
 import { build } from 'vite'
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import buildConfig from '../build.config.js'
 import { createConfig } from './createConfig.js'
 
 export const buildHandler = (needsWatch) => {
