@@ -34,7 +34,7 @@ export const createConfig = (buildItem, needsWatch) => {
 			lib: {
 				name,
 				entry: join(__dirname, '..', path),
-				fileName: () => 'index.js',
+				fileName: () => `${name}.js`,
 				formats: ['umd'],
 			},
 			rollupOptions: {
