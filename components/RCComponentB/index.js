@@ -1,8 +1,8 @@
-export { default } from './ComponentA.vue';
+export { default } from './ComponentB.vue';
 import snapshot from './demo.png';
 
 export const meta = {
-  name: 'RCComponentA',
+  name: 'RCComponentB',
   author: 'testUser',
   snapshot,
   // 这个还是保留吧，前端可以自己识别
