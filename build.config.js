@@ -5,6 +5,14 @@ export default [
 	},
 	{
 		name: 'RCComponentB',
-		path: 'components/RCComponentB/ComponentB.vue',
+		path: 'components/RCComponentB/index.js',
+	},
+	{
+		name: 'RCPageA',
+		path: 'pages/RCPageA/index.js',
+	},
+	{
+		name: 'RCPageB',
+		path: 'pages/RCPageB/index.js',
 	},
 ]
