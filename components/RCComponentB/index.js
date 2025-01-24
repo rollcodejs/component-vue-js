@@ -9,15 +9,16 @@ export const meta = {
   label: '组件1',
   setters: {
     text: {
-      type: 'SimpleText',
-      default: {
-        content: '文本',
-        label: '文本输入'
-      }
+      type: 'Text',
+      label: '我属性B测试值',
+      default: '这是我测试值BBB'
     }
   },
-  actions: {
-    latestActive: 'none',
-    startDraw: 'json'
-  }
+  actions: [
+    {
+      label: '仅展示的B行为',
+      cate: '自定义行为',
+      type: 'custom'
+    }
+  ]
 };
