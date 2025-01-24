@@ -15,4 +15,8 @@ export default [
 		name: 'RCPageB',
 		path: 'pages/RCPageB/index.js',
 	},
+	{
+		name: 'xjTest',
+		path: 'scripts-inject/xjTest/index.js',
+	},
 ]
