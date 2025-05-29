@@ -1,5 +1,9 @@
 export default [
 	{
+		name: 'Button',
+		path: 'components/Button/index.js',
+	},
+	{
 		name: 'RCComponentA',
 		path: 'components/RCComponentA/index.js',
 	},

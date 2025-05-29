@@ -1,45 +1,46 @@
-import { build, preview } from 'vite'
-import buildConfig from '../build.config.js'
-import { createConfig } from './createConfig.js'
+import { build, preview } from "vite";
+import buildConfig from "../build.config.js";
+import { createConfig } from "./createConfig.js";
 
-const PORT = 8081
+const PORT = 9000;
 const HtmlPlugin = () => {
-	return {
-		name: 'html-transform',
-		transformIndexHtml(html) {
-			let ulTpl = '<ul>'
-			buildConfig.forEach((com) => {
-				const href = `http://localhost:${PORT}/${com.name}/index.js`
-				ulTpl += `<li><span>${com.name}: </span> <a href="${href}">${href}</a></li>`
-			})
-			ulTpl += '</ul>'
-			return html.replace(/<body>[^\<]*<\/body>/, `<body>${ulTpl}</body>`)
-		},
-	}
-}
+  return {
+    name: "html-transform",
+    transformIndexHtml(html) {
+      let ulTpl = '<ul class="ul-list">';
+      buildConfig.forEach((com) => {
+        const href = `http://localhost:${PORT}/${com.name}/${com.name}.js`;
+        ulTpl += `<li><span>${com.name}: </span> <a href="${href}">${href}</a></li>`;
+      });
+      ulTpl += "</ul>";
+	  return html.replace(/<div id="content">[\s\S]*<\/div>/, `<div id="content">${ulTpl}</div>`);
+    },
+  };
+};
 
 const previewServer = await preview({
-	// 任何合法的用户配置选项，加上 `mode` 和 `configFile`
-	preview: {
-		port: PORT,
-		open: false,
-	},
-})
+  // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
+  preview: {
+    port: PORT,
+    open: false,
+  },
+});
 
 const buildWatchHandler = (needsWatch) => {
-	build({
-		plugins: [HtmlPlugin()],
-	})
-	buildConfig.forEach((buildItem) => {
-		const config = createConfig(buildItem, needsWatch)
-		build({
-			...config,
-			build: {
-				...config.build,
-				minify: false,
-			},
-		})
-	})
-}
+  build({
+    build: { watch: true },
+    plugins: [HtmlPlugin()],
+  });
+  buildConfig.forEach((buildItem) => {
+    const config = createConfig(buildItem, needsWatch);
+    build({
+      ...config,
+      build: {
+        ...config.build,
+        minify: false,
+      },
+    });
+  });
+};
 
-buildWatchHandler(true)
+buildWatchHandler(true);

@@ -4,13 +4,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RollCode Dev Page</title>
+  <title>RollCode 自定义资产开发</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    .welcome {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .doc {  
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .ul-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .ul-list li { 
+      margin-bottom: 10px;
+    }
+    .ul-list li span {
+      display: inline-block;
+      width: 140px;
+    }
+    .ul-list li a {
+      text-decoration: none;
+      color: #505cf4;
+    }
+    .ul-list li a:hover { 
+    }
+    #content {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <script src="https://www.unpkg.com/vue@3.4.29/dist/vue.global.js"></script>
 
 <body>
-
+  <div class="welcome">欢迎使用RollCode 自定义资产开发</div>
+  <div class="doc">开发文档： <a href="https://docs.rollcode.com">https://docs.rollcode.com</a></div>
+  <div id="content"></div>
 </body>
 
 </html>
