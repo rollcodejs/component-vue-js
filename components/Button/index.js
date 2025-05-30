@@ -6,7 +6,7 @@ export const meta = {
   label: '按钮',
   setters: {
     text: {
-      type: 'RichText',
+      type: 'Text',
       label: '按钮文本',
       default: 'Hello World! 👋🏻'
     }

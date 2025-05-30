@@ -24,6 +24,9 @@ const previewServer = await preview({
     port: PORT,
     open: false,
   },
+  server: {
+    host: "0.0.0.0",
+  },
 });
 
 const buildWatchHandler = (needsWatch) => {

@@ -1,5 +1,5 @@
 <template>
-  <button>{{ props.text }}</button>
+  <button class="buttonComponent">{{ props.text }}</button>
 </template>
 <script setup>
 const props = defineProps({
@@ -7,11 +7,12 @@ const props = defineProps({
 });
 </script>
 <style lang="less" scoped>
-button {
-  background-color: #007bff;
+.buttonComponent {
+  background: #007bff;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
+  width: 100%;
 }
 </style>

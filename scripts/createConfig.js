@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
 // 好像不需要这两个？
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -18,7 +19,7 @@ export const createConfig = (buildItem, needsWatch) => {
         NODE_ENV: 'production'
       }
     },
-    plugins: [commonjs(), resolve(), vue(), vueJsx(), cssInjectedByJsPlugin()],
+    plugins: [commonjs(), resolve(), vue(), vueJsx(), libInjectCss()],
     assetsInclude: [
       // '**/*.png',
       // '**/*.jpg',
