@@ -1,8 +1,7 @@
 import vue from '@vitejs/plugin-vue';
-import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 // 好像不需要这两个？
 import commonjs from '@rollup/plugin-commonjs';
@@ -29,6 +28,7 @@ export const createConfig = (buildItem, needsWatch) => {
     ], // 匹配你不想被Vite处理的图片类型
     assetInlineLimit: 0, // 将此值设置为0可以阻止所有资源被内联，从而作为普通静态资源处理
     build: {
+      ssr: false,
       emptyOutDir: true,
       outDir: `dist/${name}`,
       watch: needsWatch ? {} : null,
