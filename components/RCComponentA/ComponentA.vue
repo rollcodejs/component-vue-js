@@ -7,14 +7,20 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted } from "vue";
 onMounted(() => {
   console.log(123123);
 });
 const props = defineProps({
-  text: Object
+  text: Object,
 });
 const clickHandler = () => {
-  alert('点击了按钮！');
+  alert("点击了按钮！");
 };
+
+defineExpose({
+  actionHandler: () => {
+    alert("actionHandler");
+  },
+});
 </script>

@@ -15,14 +15,14 @@ export default [
   // 	name: 'RCComponentB',
   // 	path: 'components/RCComponentB/index.js',
   // },
-  // {
-  // 	name: 'RCPageA',
-  // 	path: 'pages/RCPageA/index.js',
-  // },
-  // {
-  // 	name: 'RCPageB',
-  // 	path: 'pages/RCPageB/index.js',
-  // },
+  {
+  	name: 'RCPageA',
+  	path: 'pages/RCPageA/index.js',
+  },
+  {
+  	name: 'RCPageB',
+  	path: 'pages/RCPageB/index.js',
+  },
   // {
   // 	name: 'xjTest',
   // 	path: 'scripts-inject/xjTest/index.js',

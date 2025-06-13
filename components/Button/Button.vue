@@ -1,9 +1,17 @@
 <template>
-  <button class="buttonComponent">{{ props.text }}</button>
+  <button class="buttonComponent">{{ props.text }} | {{ randomText }}</button>
 </template>
 <script setup>
+import { ref } from "vue";
 const props = defineProps({
   text: String,
+});
+const randomText = ref("");
+
+defineExpose({
+  randomText: () => {
+    randomText.value = Math.random().toString(36).substring(2, 15);
+  },
 });
 </script>
 <style lang="less" scoped>
