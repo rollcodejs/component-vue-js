@@ -16,12 +16,16 @@ export default [
   // 	path: 'components/RCComponentB/index.js',
   // },
   {
-  	name: 'RCPageA',
-  	path: 'pages/RCPageA/index.js',
+    name: "Lottery",
+    path: "pages/Lottery/index.js",
   },
   {
-  	name: 'RCPageB',
-  	path: 'pages/RCPageB/index.js',
+    name: "RCPageA",
+    path: "pages/RCPageA/index.js",
+  },
+  {
+    name: "RCPageB",
+    path: "pages/RCPageB/index.js",
   },
   // {
   // 	name: 'xjTest',

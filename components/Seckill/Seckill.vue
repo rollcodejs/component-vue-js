@@ -19,7 +19,7 @@ const props = defineProps({
 });
 import { ref, onMounted, onUnmounted } from "vue";
 
-const END_DATE = "2025-06-30";
+const END_DATE = "2025-07-30";
 const END_TIME = "10:00:00";
 const endTime = new Date(`${END_DATE}T${END_TIME}`);
 
@@ -51,6 +51,12 @@ onMounted(() => {
 });
 onUnmounted(() => {
   if (timer) clearInterval(timer);
+});
+
+defineExpose({
+  startSecKill: (action) => {
+    console.log("params:", action);
+  },
 });
 </script>
 <style scoped>
