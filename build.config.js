@@ -7,28 +7,8 @@ export default [
     name: "Seckill",
     path: "components/Seckill/index.js",
   },
-  // {
-  // 	name: 'RCComponentA',
-  // 	path: 'components/RCComponentA/index.js',
-  // },
-  // {
-  // 	name: 'RCComponentB',
-  // 	path: 'components/RCComponentB/index.js',
-  // },
   {
     name: "Lottery",
     path: "pages/Lottery/index.js",
   },
-  {
-    name: "RCPageA",
-    path: "pages/RCPageA/index.js",
-  },
-  {
-    name: "RCPageB",
-    path: "pages/RCPageB/index.js",
-  },
-  // {
-  // 	name: 'xjTest',
-  // 	path: 'scripts-inject/xjTest/index.js',
-  // },
 ];

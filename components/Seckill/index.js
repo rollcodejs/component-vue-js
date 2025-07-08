@@ -9,6 +9,15 @@ export const meta = {
       label: "秒杀文本",
       default: "距结束",
     },
+    color: {
+      type: "Color",
+      label: "颜色设置",
+    },
+    resource: {
+      type: "Resource",
+      label: "资源",
+    },
+
   },
   actions: [
     {

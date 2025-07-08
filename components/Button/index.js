@@ -10,12 +10,19 @@ export const meta = {
       label: "按钮文本",
       default: "Hello World! 👋🏻",
     },
+    resource: {
+      type: "Resource",
+      label: "资源",
+    },
+    textColor: {
+      type: "Color",
+      label: "文本颜色",
+    }
   },
   actions: [
     {
-      label: "仅展示的A行为",
-      name: "randomText",
-      dataType: "string",
+      label: "播放动画",
+      name: "playAnimation",
     },
   ],
 };
