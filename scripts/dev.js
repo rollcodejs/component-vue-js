@@ -10,7 +10,7 @@ const HtmlPlugin = () => {
       let ulTpl = '<ul class="ul-list">';
       buildConfig.forEach((com) => {
         const href = `http://localhost:${PORT}/${com.name}/${com.name}.js`;
-        ulTpl += `<li><span>${com.name}: </span> <a href="${href}">${href}</a></li>`;
+        ulTpl += `<li><span>${com.name}: </span> <a target="_blank" href="${href}">${href}</a></li>`;
       });
       ulTpl += "</ul>";
 	  return html.replace(/<div id="content">[\s\S]*<\/div>/, `<div id="content">${ulTpl}</div>`);
