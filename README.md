@@ -51,7 +51,7 @@ npm install
 以 `components/Button` 为例，编辑 `Button.vue` 和 `index.js`，`index.js` 需导出组件和 meta 信息：
 
 ```js
-export { default } from './Button.vue';
+export { default } from "./Button.vue";
 
 export const meta = {
   actions: [
@@ -64,9 +64,9 @@ export const meta = {
     text: {
       type: "Text",
       default: "按钮",
-      label: "按钮文本"
-    }
-  }
+      label: "按钮文本",
+    },
+  },
 };
 ```
 
@@ -74,12 +74,27 @@ export const meta = {
 
 以 `pages/Lottery` 为例，编辑 `Lottery.vue` 和 `index.js`，并可在 `assets` 目录放置页面资源。
 
+```js
+export { default } from "./Lottery.vue";
+
+export const meta = {
+  actions: [
+    {
+      label: "抽奖",
+      name: "lottery",
+      dataType: "string",
+    },
+  ],
+};
+```
+
 ### 3. 本地调试
 
 ```bash
 npm run dev
 ```
 
+- 所有要打包的入口文件都在 `build.config.js` 中配置, 指定 `name` 和 `path` 即可。
 - 启动后会监听源码变更，自动重新打包。
 - 默认端口为 5173，可在 `scripts/dev.js` 中修改。
 - 可在 RollCode 平台的“调试地址”中填写本地生成的 JS 文件地址（如 http://localhost:5173/Seckill/Seckill.js），实现热重载和实时预览。
@@ -101,11 +116,15 @@ npm run build
 每个资产需通过 `index.js` 导出主组件和 meta 信息：
 
 ```js
-export { default } from './YourComponent.vue';
+export { default } from "./YourComponent.vue";
 
 export const meta = {
-  actions: [ /* 行为配置 */ ],
-  setters: { /* 属性设置器 */ }
+  actions: [
+    /* 行为配置 */
+  ],
+  setters: {
+    /* 属性设置器 */
+  },
 };
 ```
 

@@ -14,8 +14,7 @@ const props = defineProps({
 const isScale = ref(false);
 
 const imageUrl = computed(() => {
-  return "http://oss.nougat-tech.com/rc-bucket/" + props.resource.src;
-  // return 'http://localhost:9000/rollcode' +  props.resource.src;
+  return 'http://localhost:9000/rollcode' +  props.resource.src;
 });
 
 const playAnimation = () => {
