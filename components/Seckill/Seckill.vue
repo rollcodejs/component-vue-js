@@ -1,5 +1,5 @@
 <template>
-  <div class="seckill seckill-transparent-bg">
+  <div class="seckill">
     <div class="seckill-countdown">
       <span class="seckill-countdown-unit">{{ text }}</span>
       <span class="seckill-countdown-box">{{ days }}</span
@@ -19,8 +19,9 @@ const props = defineProps({
 });
 import { ref, onMounted, onUnmounted } from "vue";
 
-const END_DATE = "2025-07-30";
-const END_TIME = "10:00:00";
+const now = new Date();
+const END_DATE = now.toISOString().split("T")[0];
+const END_TIME = "23:59:59";
 const endTime = new Date(`${END_DATE}T${END_TIME}`);
 
 const days = ref("00");
@@ -60,12 +61,13 @@ defineExpose({
 });
 </script>
 <style scoped>
-.seckill-transparent-bg {
-  background: transparent;
+.seckill {
+  background: url("./assets/secskill.png") no-repeat center center;
+  background-size: 100% auto;
   padding: 16px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  height: 140px;
+  padding-top: 24%;
 }
 .seckill-countdown-label {
   color: #fff;
@@ -77,12 +79,13 @@ defineExpose({
 .seckill-countdown {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  justify-content: center;
 }
 .seckill-countdown-box {
   display: inline-block;
-  min-width: 22px;
-  height: 22px;
+  min-width: 28px;
+  height: 28px;
   background: #fff;
   color: #ff4d4f;
   font-size: 14px;
@@ -94,6 +97,6 @@ defineExpose({
 }
 .seckill-countdown-unit {
   color: #fff;
-  font-size: 12px;
+  font-size: 16px;
 }
 </style>

@@ -2,7 +2,7 @@ import { build, preview } from "vite";
 import buildConfig from "../build.config.js";
 import { createConfig } from "./createConfig.js";
 
-const PORT = 9000;
+const PORT = 5173;
 const HtmlPlugin = () => {
   return {
     name: "html-transform",
