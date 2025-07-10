@@ -91,7 +91,7 @@ defineExpose({
   font-size: 14px;
   border-radius: 8px;
   text-align: center;
-  line-height: 22px;
+  line-height: 28px;
   margin: 0 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
