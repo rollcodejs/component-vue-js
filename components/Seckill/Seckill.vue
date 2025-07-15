@@ -1,7 +1,7 @@
 <template>
   <div class="seckill">
     <div class="seckill-countdown">
-      <span class="seckill-countdown-unit">{{ text }}</span>
+      <span class="seckill-countdown-unit">距结束</span>
       <span class="seckill-countdown-box">{{ days }}</span
       ><span class="seckill-countdown-unit">天</span>
       <span class="seckill-countdown-box">{{ hours }}</span
@@ -14,25 +14,28 @@
   </div>
 </template>
 <script setup>
-const props = defineProps({
-  text: String,
-});
 import { ref, onMounted, onUnmounted } from "vue";
+const props = defineProps({
+  endTime: {
+    type: String,
+    default: "2025-12-12 23:59:59",
+  },
+});
 
-const now = new Date();
-const END_DATE = now.toISOString().split("T")[0];
-const END_TIME = "23:59:59";
-const endTime = new Date(`${END_DATE}T${END_TIME}`);
 
 const days = ref("00");
 const hours = ref("00");
 const minutes = ref("00");
 const seconds = ref("00");
 let timer = null;
+const diffLength = ref(0);
 
 function updateCountdown() {
+  const [date, time] = props.endTime?.split(" ") || ["", ""];
+  const endTime = new Date(`${date}T${time}`);
   const now = new Date();
   let diff = Math.max(0, endTime - now);
+  diffLength.value = diff;
   const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   diff -= d * 1000 * 60 * 60 * 24;
   const h = Math.floor(diff / (1000 * 60 * 60));
@@ -56,17 +59,21 @@ onUnmounted(() => {
 
 defineExpose({
   startSecKill: (action) => {
-    console.log("params:", action);
+    if (diffLength.value > 0) {
+      alert("秒杀未开始");
+    } else {
+      alert("秒杀已结束");
+    } 
   },
 });
 </script>
 <style scoped>
 .seckill {
-  background: url("./assets/secskill.png") no-repeat center center;
+  background: url("./assets/secskill.png") no-repeat center top;
   background-size: 100% auto;
   padding: 16px 0;
   width: 100%;
-  height: 140px;
+  height: 160px;
   padding-top: 24%;
 }
 .seckill-countdown-label {
