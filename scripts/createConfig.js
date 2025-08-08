@@ -20,7 +20,7 @@ export const createConfig = (buildItem, needsWatch) => {
     plugins: [commonjs(), resolve(), vue(), vueJsx(), libInjectCss()],
     build: {
       ssr: false,
-      emptyOutDir: true,
+      emptyOutDir: false,
       outDir: `dist/${name}`,
       watch: needsWatch ? {} : null,
       lib: {
@@ -30,8 +30,12 @@ export const createConfig = (buildItem, needsWatch) => {
         formats: ['umd']
       },
       rollupOptions: {
-        entryFileNames: 'js/[name].js',
-        external: ['vue']
+        external: ['vue'],
+        output: {
+          globals: {
+            vue: 'Vue'
+          }
+        }
       }
     }
   });

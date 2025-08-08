@@ -91,14 +91,23 @@ export const meta = {
 
 ### 3. 本地调试
 
+#### 库开发模式
 ```bash
-npm run dev
+npm run lib:dev
 ```
 
 - 所有要打包的入口文件都在 `build.config.js` 中配置, 指定 `name` 和 `path` 即可。
 - 启动后会监听源码变更，自动重新打包。
-- 默认端口为 5173，可在 `scripts/dev.js` 中修改。
-- 可在 RollCode 平台的“调试地址”中填写本地生成的 JS 文件地址（如 http://localhost:5173/Seckill/Seckill.js），实现热重载和实时预览。
+- 适合开发 RollCode 插件组件和页面。
+
+#### Vue 应用开发模式
+```bash
+npm run app:dev
+```
+
+- 启动 Vue 应用开发服务器
+- 默认端口为 3000
+- 适合开发应用界面和功能
 
 ### 4. 打包发布
 
