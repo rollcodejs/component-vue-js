@@ -5,9 +5,11 @@
   "main": "vite.config.js",
   "type": "module",
   "scripts": {
+    "dev": "node scripts/dev.js",
     "lib": "node scripts/build.js",
     "lib:dev": "node scripts/dev.js",
-    "app:dev": "vite"
+    "app:dev": "vite",
+    "build:report": "node scripts/buildInfo.js"
   },
   "author": "",
   "license": "ISC",
