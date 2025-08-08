@@ -16,18 +16,19 @@
 
 ```text
 rollcodejs-plugins-template/
-├── components/           # 组件开发目录
-│   ├── Button/           # 示例组件
-│   │   ├── Button.vue
-│   │   └── index.js
-│   └── Seckill/
-│       ├── Seckill.vue
-│       └── index.js
-├── pages/                # 自定义页面开发目录
-│   └── Lottery/
-│       ├── Lottery.vue
-│       ├── index.js
-│       └── assets/       # 页面用到的图片等资源
+├── lib/                  # 库文件目录
+│   ├── components/       # 组件开发目录
+│   │   ├── Button/       # 示例组件
+│   │   │   ├── Button.vue
+│   │   │   └── index.js
+│   │   └── Seckill/
+│   │       ├── Seckill.vue
+│   │       └── index.js
+│   └── pages/            # 自定义页面开发目录
+│       └── Lottery/
+│           ├── Lottery.vue
+│           ├── index.js
+│           └── assets/   # 页面用到的图片等资源
 ├── public/               # 公共资源目录
 ├── scripts/              # 构建与开发脚本
 ├── package.json
@@ -48,7 +49,7 @@ npm install
 
 #### 组件开发
 
-以 `components/Button` 为例，编辑 `Button.vue` 和 `index.js`，`index.js` 需导出组件和 meta 信息：
+以 `lib/components/Button` 为例，编辑 `Button.vue` 和 `index.js`，`index.js` 需导出组件和 meta 信息：
 
 ```js
 export { default } from "./Button.vue";
@@ -72,7 +73,7 @@ export const meta = {
 
 #### 页面开发
 
-以 `pages/Lottery` 为例，编辑 `Lottery.vue` 和 `index.js`，并可在 `assets` 目录放置页面资源。
+以 `lib/pages/Lottery` 为例，编辑 `Lottery.vue` 和 `index.js`，并可在 `assets` 目录放置页面资源。
 
 ```js
 export { default } from "./Lottery.vue";
@@ -102,7 +103,7 @@ npm run dev
 ### 4. 打包发布
 
 ```bash
-npm run build
+npm run lib
 ```
 
 - 打包产物会输出到 `dist/` 目录下，每个资产为一个独立的 JS 文件，所有资源已 base64 内联，无需额外上传图片等资源。

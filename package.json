@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/dev.js",
-    "build": "node scripts/build.js"
+    "lib": "node scripts/build.js"
   },
   "author": "",
   "license": "ISC",
