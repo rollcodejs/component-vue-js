@@ -1,189 +1,97 @@
-# rollcodejs-plugins-template
+# RollCodeJS 插件模板
 
-本项目是为 [RollCode](https://www.rollcode.cn/) 平台开发自定义资产（组件/页面）的 Vue 模板工程，开箱即用，支持自定义组件与页面的快速开发、调试与打包，适配 RollCode 平台资产规范。
+这是一个用于开发 RollCodeJS 插件的 Vue.js 模板项目。
 
-## 特性
+## 功能特性
 
-- 基于 Vue 3 + Vite
-- 支持自定义组件、自定义页面开发
-- 产物为单 JS 文件，资源全部内联，便于上传和分发(生产建议更换为链接)
-- 兼容 RollCode 平台资产规范，支持 meta 配置、行为暴露、属性设置器等
-- 内置开发、打包脚本，支持本地调试与热重载
+### 🧩 组件管理
+- **Button**: 可自定义的按钮组件，支持文本、颜色和动画效果
+- **Seckill**: 秒杀活动组件，支持倒计时和商品展示
+- **ComponentExample**: 组件开发示例，展示基本的组件结构
 
----
+### 📄 页面管理
+- **Lottery**: 抽奖页面，支持多种奖品和抽奖动画
+- **PageExample**: 页面开发示例，展示基本的页面结构
 
-## 目录结构
+### 🔍 查看代码功能 ✨
+新增的"查看代码"功能允许开发者：
+- 点击卡片上的"查看代码"按钮打开模态框
+- 在模态框中查看组件的真实源码（Vue 文件、JS 文件等）
+- 支持多文件标签页切换
+- 显示完整的文件路径
+- 一键复制代码到剪贴板
+- 响应式设计，支持移动端
 
-```text
-rollcodejs-plugins-template/
-├── lib/                  # 库文件目录
-│   ├── components/       # 组件开发目录
-│   │   ├── Button/       # 示例组件
-│   │   │   ├── Button.vue
-│   │   │   └── index.js
-│   │   └── Seckill/
-│   │       ├── Seckill.vue
-│   │       └── index.js
-│   └── pages/            # 自定义页面开发目录
-│       └── Lottery/
-│           ├── Lottery.vue
-│           ├── index.js
-│           └── assets/   # 页面用到的图片等资源
-├── public/               # 公共资源目录
-├── scripts/              # 构建与开发脚本
-├── package.json
-└── README.md
-```
+### 📊 构建统计
+- 显示每个组件的构建大小和压缩后大小
+- 显示构建时间和依赖信息
+- 总体构建统计概览
 
----
-
-## 快速开始
-
-### 1. 安装依赖
+## 开发命令
 
 ```bash
-npm install
-```
-
-### 2. 开发模式
-
-#### 组件开发
-
-以 `lib/components/Button` 为例，编辑 `Button.vue` 和 `index.js`，`index.js` 需导出组件和 meta 信息：
-
-```js
-export { default } from "./Button.vue";
-
-export const meta = {
-  actions: [
-    {
-      label: "点击",
-      name: "onClick",
-    },
-  ],
-  setters: {
-    text: {
-      type: "Text",
-      default: "按钮",
-      label: "按钮文本",
-    },
-  },
-};
-```
-
-#### 页面开发
-
-以 `lib/pages/Lottery` 为例，编辑 `Lottery.vue` 和 `index.js`，并可在 `assets` 目录放置页面资源。
-
-```js
-export { default } from "./Lottery.vue";
-
-export const meta = {
-  actions: [
-    {
-      label: "抽奖",
-      name: "lottery",
-      dataType: "string",
-    },
-  ],
-};
-```
-
-### 3. 本地调试
-
-#### 库开发模式
-```bash
+# 开发模式 - 监听文件变化并自动重新构建
 npm run lib:dev
-```
 
-- 所有要打包的入口文件都在 `build.config.js` 中配置, 指定 `name` 和 `path` 即可。
-- 启动后会监听源码变更，自动重新打包。
-- 每次构建都会生成构建信息，显示包体积大小。
-- 适合开发 RollCode 插件组件和页面。
-
-#### Vue 应用开发模式
-```bash
-npm run app:dev
-```
-
-- 启动 Vue 应用开发服务器
-- 默认端口为 3000
-- 在组件卡片上显示实时构建信息（包体积、构建时间等）
-- 适合开发应用界面和功能
-
-### 4. 打包发布
-
-```bash
+# 生产构建 - 输出到 dist 目录
 npm run lib
-```
 
-- 打包产物会输出到 `dist/` 目录下，每个资产为一个独立的 JS 文件，所有资源已 base64 内联，无需额外上传图片等资源。
-- 每个包都会生成 `build-info.json` 文件，包含包体积、依赖信息等详细数据。
-- 构建完成后会自动生成汇总报告 `dist/build-report.json`。
+# 应用开发 - 启动 Vue 应用开发服务器
+npm run app:dev
 
-### 5. 查看构建报告
-
-```bash
+# 构建报告 - 查看详细的构建信息和包分析
 npm run build:report
 ```
 
-- 显示所有包的详细构建信息，包括：
-  - 包体积大小（原始大小和压缩后大小）
-  - 构建时间
-  - 依赖分析
-  - 模块分析
+## 项目结构
 
----
-
-## 资产规范说明
-
-### 1. 组件/页面导出
-
-每个资产需通过 `index.js` 导出主组件和 meta 信息：
-
-```js
-export { default } from "./YourComponent.vue";
-
-export const meta = {
-  actions: [
-    /* 行为配置 */
-  ],
-  setters: {
-    /* 属性设置器 */
-  },
-};
+```
+rollcodejs-plugins-template/
+├── lib/                    # 组件和页面库
+│   ├── components/         # Vue 组件
+│   └── pages/             # Vue 页面
+├── src/                    # 应用源码
+│   ├── App.vue            # 主应用组件
+│   └── main.js            # 应用入口
+├── scripts/                # 构建脚本
+└── public/                 # 静态资源
 ```
 
-### 2. 行为（actions）
+## 技术栈
 
-通过 meta.actions 暴露组件方法，供平台或其他组件调用。  
-详见[官方文档-行为配置](https://docs.rollcode.cn/developer/develop-guide/custom-page#定义行为)。
+- **Vue 3** - 前端框架
+- **Vite** - 构建工具
+- **Rollup** - 库打包工具
+- **Less** - CSS 预处理器
 
-### 3. 属性设置器（setters）
+## 使用方法
 
-通过 meta.setters 配置属性类型、默认值、标签等，支持平台资产属性面板自动生成。  
-详见[官方文档-属性设置器](https://docs.rollcode.cn/developer/develop-guide/custom-page#SetterPropsObject)。
+1. 克隆项目
+2. 安装依赖：`npm install`
+3. 启动开发服务器：`npm run app:dev`
+4. 在浏览器中打开应用
+5. 点击任意组件的"查看代码"按钮查看源码
 
-### 4. 插槽支持
+## 查看代码功能说明
 
-自定义页面支持 `pageRegion`、`popupRegion` 等插槽，详见[官方文档-定义插槽](https://docs.rollcode.cn/developer/develop-guide/custom-page#定义插槽)。
+### 功能特点
+- **实时加载**: 动态从文件系统加载真实的源码内容
+- **多文件支持**: 支持查看组件的所有相关文件（.vue, .js 等）
+- **语法友好**: 使用等宽字体和深色主题，代码更易读
+- **复制功能**: 一键复制代码到剪贴板，提高开发效率
+- **响应式设计**: 在移动设备上也能良好显示
 
----
+### 使用方法
+1. 在主页面上点击任意组件或页面卡片
+2. 点击卡片底部的"查看代码 →"按钮
+3. 在打开的模态框中可以：
+   - 查看文件路径
+   - 切换不同的文件标签页
+   - 复制代码内容
+   - 关闭模态框
 
-## 调试与上线流程
-
-1. 本地开发并调试，确认无误后执行打包
-2. 上传 `dist/xxx.js` 到 RollCode 平台资产管理
-3. 在平台中添加新页面或组件，选择上传的 JS 文件
-4. 配置属性、行为等，完成资产上线
-
----
-
-## 参考文档
-
-- [RollCode 官方开发文档](https://docs.rollcode.cn/developer/develop-guide/custom-page)
-- [RollCode 组件开发模板（GitHub）](https://github.com/rollcodejs/component-vue-js)
-
----
-
-如有问题欢迎提 Issue 或 PR！
+这个功能特别适合：
+- 代码审查和调试
+- 学习其他组件的实现方式
+- 快速复制代码片段
+- 展示项目结构

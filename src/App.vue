@@ -231,7 +231,20 @@
             </button>
           </div>
           <div class="code-content">
-            <pre class="code-block"><code>{{ getCurrentCode() }}</code></pre>
+            <div class="code-header">
+              <span class="file-path">{{ getCurrentFilePath() }}</span>
+              <div class="code-actions">
+                <span class="file-info" v-if="getCurrentFileInfo()">
+                  {{ getCurrentFileInfo() }}
+                </span>
+                <button class="copy-btn" @click="copyCode" title="复制代码">
+                  📋
+                </button>
+              </div>
+            </div>
+            <div class="code-block-wrapper">
+              <pre class="code-block"><code :class="getCodeLanguage()">{{ getCurrentCode() }}</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -263,8 +276,8 @@ export default {
         path: "lib/components/Button",
         buildInfo: null,
         files: [
-          { name: "Button.vue", content: "// Button 组件代码" },
-          { name: "index.js", content: "// Button 导出配置" },
+          { name: "Button.vue", path: "lib/components/Button/Button.vue" },
+          { name: "index.js", path: "lib/components/Button/index.js" },
         ],
       },
       {
@@ -273,8 +286,8 @@ export default {
         path: "lib/components/Seckill",
         buildInfo: null,
         files: [
-          { name: "Seckill.vue", content: "// Seckill 组件代码" },
-          { name: "index.js", content: "// Seckill 导出配置" },
+          { name: "Seckill.vue", path: "lib/components/Seckill/Seckill.vue" },
+          { name: "index.js", path: "lib/components/Seckill/index.js" },
         ],
       },
       {
@@ -285,9 +298,9 @@ export default {
         files: [
           {
             name: "ComponentExample.vue",
-            content: "// ComponentExample 组件代码",
+            path: "lib/components/ComponentExample/ComponentExample.vue",
           },
-          { name: "index.js", content: "// ComponentExample 导出配置" },
+          { name: "index.js", path: "lib/components/ComponentExample/index.js" },
         ],
       },
     ]);
@@ -299,8 +312,8 @@ export default {
         path: "lib/pages/Lottery",
         buildInfo: null,
         files: [
-          { name: "Lottery.vue", content: "// Lottery 页面代码" },
-          { name: "index.js", content: "// Lottery 导出配置" },
+          { name: "Lottery.vue", path: "lib/pages/Lottery/Lottery.vue" },
+          { name: "index.js", path: "lib/pages/Lottery/index.js" },
         ],
       },
       {
@@ -309,16 +322,24 @@ export default {
         path: "lib/pages/PageExample",
         buildInfo: null,
         files: [
-          { name: "PageExample.vue", content: "// PageExample 页面代码" },
-          { name: "index.js", content: "// PageExample 导出配置" },
+          { name: "PageExample.vue", path: "lib/pages/PageExample/PageExample.vue" },
+          { name: "index.js", path: "lib/pages/PageExample/index.js" },
         ],
       },
     ]);
 
-    const showCode = (item) => {
+    const showCode = async (item) => {
       selectedItem.value = item;
       activeTab.value = item.files[0]?.name || "";
       showModal.value = true;
+      
+      // 重置文件内容
+      for (const file of item.files) {
+        file.content = "// 正在加载代码...";
+      }
+      
+      // 动态加载文件内容
+      await loadFileContents(item);
     };
 
     const closeModal = () => {
@@ -326,12 +347,118 @@ export default {
       selectedItem.value = null;
     };
 
+    // 动态加载文件内容
+    const loadFileContents = async (item) => {
+      try {
+        for (const file of item.files) {
+          try {
+            // 使用 Vite 的 ?raw 查询参数来加载原始文件内容
+            const response = await fetch(`/${file.path}?raw`);
+            if (response.ok) {
+              file.content = await response.text();
+            } else {
+              // 如果 ?raw 失败，尝试直接加载
+              const rawResponse = await fetch(`/${file.path}`);
+              if (rawResponse.ok) {
+                file.content = await rawResponse.text();
+              } else {
+                file.content = `// 无法加载文件: ${file.path}\n// 错误: ${response.status} ${response.statusText}\n\n请确保文件路径正确且文件存在。`;
+              }
+            }
+          } catch (fileError) {
+            console.error(`加载文件 ${file.path} 失败:`, fileError);
+            file.content = `// 加载文件失败: ${file.path}\n// 错误: ${fileError.message}\n\n请检查文件路径和网络连接。`;
+          }
+        }
+      } catch (error) {
+        console.error('加载文件内容失败:', error);
+        for (const file of item.files) {
+          file.content = `// 加载文件失败: ${file.path}\n// 错误: ${error.message}\n\n请检查开发服务器是否正常运行。`;
+        }
+      }
+    };
+
     const getCurrentCode = () => {
       if (!selectedItem.value || !activeTab.value) return "";
       const file = selectedItem.value.files.find(
         (f) => f.name === activeTab.value
       );
-      return file?.content || "";
+      return file?.content || "// 正在加载代码...";
+    };
+
+    // 获取当前文件路径
+    const getCurrentFilePath = () => {
+      if (!selectedItem.value || !activeTab.value) return "";
+      const file = selectedItem.value.files.find(
+        (f) => f.name === activeTab.value
+      );
+      return file?.path || "";
+    };
+
+    // 获取当前文件信息
+    const getCurrentFileInfo = () => {
+      if (!selectedItem.value || !activeTab.value) return "";
+      const file = selectedItem.value.files.find(
+        (f) => f.name === activeTab.value
+      );
+      if (!file) return "";
+      
+      if (file.content && file.content.startsWith("// 正在加载代码...")) {
+        return "🔄 加载中...";
+      } else if (file.content && file.content.startsWith("// 无法加载文件") || file.content.startsWith("// 加载文件失败")) {
+        return "❌ 加载失败";
+      } else if (file.content) {
+        const lines = file.content.split('\n').length;
+        const size = new Blob([file.content]).size;
+        return `📄 ${lines} 行 | ${formatFileSize(size)}`;
+      }
+      return "";
+    };
+
+    // 获取代码语言类型
+    const getCodeLanguage = () => {
+      if (!activeTab.value) return "";
+      const extension = activeTab.value.split('.').pop();
+      const languageMap = {
+        'vue': 'language-vue',
+        'js': 'language-javascript',
+        'ts': 'language-typescript',
+        'html': 'language-html',
+        'css': 'language-css',
+        'less': 'language-less',
+        'scss': 'language-scss',
+        'json': 'language-json',
+        'md': 'language-markdown'
+      };
+      return languageMap[extension] || 'language-plaintext';
+    };
+
+    // 复制代码到剪贴板
+    const copyCode = async () => {
+      const code = getCurrentCode();
+      try {
+        await navigator.clipboard.writeText(code);
+        // 可以添加一个临时的成功提示
+        const copyBtn = document.querySelector('.copy-btn');
+        if (copyBtn) {
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '✅';
+          copyBtn.style.background = '#10b981';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.style.background = '#667eea';
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('复制失败:', err);
+        // 降级方案：使用传统的复制方法
+        const textArea = document.createElement('textarea');
+        textArea.value = code;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
     };
 
     // 格式化构建时间
@@ -378,6 +505,10 @@ export default {
       showCode,
       closeModal,
       getCurrentCode,
+      getCurrentFilePath,
+      getCurrentFileInfo,
+      getCodeLanguage,
+      copyCode,
       buildInfo,
       formatFileSize,
       getPackageType,
@@ -682,11 +813,12 @@ export default {
   background: white;
   border-radius: 12px;
   width: 100%;
-  max-width: 900px;
-  max-height: 80vh;
+  max-width: 1000px;
+  max-height: 85vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .modal-header {
@@ -695,7 +827,7 @@ export default {
   justify-content: space-between;
   padding: 1.5rem;
   border-bottom: 1px solid #eee;
-  background: #f8f9fa;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .modal-title {
@@ -703,6 +835,14 @@ export default {
   font-size: 1.25rem;
   font-weight: 600;
   color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-title::before {
+  content: "📁";
+  font-size: 1.1rem;
 }
 
 .modal-close {
@@ -712,16 +852,18 @@ export default {
   cursor: pointer;
   color: #666;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .modal-close:hover {
-  background: #eee;
+  background: #e9ecef;
+  color: #333;
 }
 
 .modal-content {
@@ -735,6 +877,7 @@ export default {
   display: flex;
   border-bottom: 1px solid #eee;
   background: #f8f9fa;
+  overflow-x: auto;
 }
 
 .tab-button {
@@ -746,35 +889,304 @@ export default {
   color: #666;
   border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
 }
 
 .tab-button.active {
   color: #667eea;
   border-bottom-color: #667eea;
   background: white;
+  font-weight: 600;
 }
 
 .tab-button:hover {
   background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
 }
 
 .code-content {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
+  min-height: 0; /* 确保flex子元素能正确收缩 */
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  flex-shrink: 0; /* 防止头部被压缩 */
+}
+
+.file-path {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.875rem;
+  color: #555;
+  flex-grow: 1;
+  margin-right: 1rem;
+  padding: 0.25rem 0.5rem;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.code-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.file-info {
+  font-size: 0.75rem;
+  color: #666;
+  background: #e9ecef;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+}
+
+.copy-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.copy-btn:hover {
+  background: #5a67d8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.code-block-wrapper {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: #1e1e1e;
+  min-height: 0; /* 确保flex子元素能正确收缩 */
 }
 
 .code-block {
   background: #1e1e1e;
   color: #d4d4d4;
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: 0;
   margin: 0;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow: auto;
+  white-space: pre;
+  height: 100%;
+  border: none;
+  /* 设置代码区域的最小高度 */
+  min-height: 400px;
+  max-height: 600px;
+}
+
+.code-block::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.code-block::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.code-block code {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  color: inherit;
+}
+
+.code-block .hljs {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: #1e1e1e;
+  color: #d4d4d4;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.875rem;
   line-height: 1.5;
   overflow-x: auto;
   white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+/* 改进的语法高亮颜色方案 */
+.code-block .hljs-keyword {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-string {
+  color: #f1fa8c; /* 更亮的黄色 */
+}
+.code-block .hljs-number {
+  color: #bd93f9; /* 更亮的紫色 */
+}
+.code-block .hljs-function {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-comment {
+  color: #6272a4; /* 更柔和的蓝色 */
+  font-style: italic;
+}
+.code-block .hljs-variable {
+  color: #f8f8f2; /* 更亮的白色 */
+}
+.code-block .hljs-attribute {
+  color: #50fa7b; /* 更亮的绿色 */
+}
+.code-block .hljs-tag {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-selector-tag {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-built_in {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-preprocessor {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-doctype {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-entity {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-url {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-regexp {
+  color: #f1fa8c; /* 更亮的黄色 */
+}
+.code-block .hljs-symbol {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-bullet {
+  color: #bd93f9; /* 更亮的紫色 */
+}
+.code-block .hljs-code {
+  color: #f8f8f2; /* 更亮的白色 */
+}
+.code-block .hljs-title {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-section {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-name {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-selector-id {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-selector-class {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-quote {
+  color: #f1fa8c; /* 更亮的黄色 */
+}
+.code-block .hljs-template-tag {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-deletion {
+  color: #ff5555; /* 更亮的红色 */
+}
+.code-block .hljs-addition {
+  color: #50fa7b; /* 更亮的绿色 */
+}
+.code-block .hljs-emphasis {
+  font-style: italic;
+  color: #f8f8f2; /* 更亮的白色 */
+}
+.code-block .hljs-strong {
+  font-weight: bold;
+  color: #f8f8f2; /* 更亮的白色 */
+}
+
+/* Vue 特定的语法高亮 */
+.code-block .hljs-template {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-attr {
+  color: #50fa7b; /* 更亮的绿色 */
+}
+.code-block .hljs-literal {
+  color: #bd93f9; /* 更亮的紫色 */
+}
+.code-block .hljs-params {
+  color: #f8f8f2; /* 更亮的白色 */
+}
+.code-block .hljs-property {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-meta {
+  color: #6272a4; /* 更柔和的蓝色 */
+}
+.code-block .hljs-punctuation {
+  color: #f8f8f2; /* 更亮的白色 */
+}
+.code-block .hljs-operator {
+  color: #ff79c6; /* 更鲜艳的粉色 */
+}
+.code-block .hljs-namespace {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-type {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-class {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-constant {
+  color: #bd93f9; /* 更亮的紫色 */
+}
+.code-block .hljs-imports {
+  color: #8be9fd; /* 更亮的青色 */
+}
+.code-block .hljs-exports {
+  color: #8be9fd; /* 更亮的青色 */
 }
 
 @media (max-width: 768px) {
@@ -798,9 +1210,88 @@ export default {
     padding: 1rem;
   }
 
+  .modal {
+    max-width: 100%;
+    max-height: 90vh;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+  }
+
+  .code-tabs {
+    overflow-x: auto;
+    padding: 0 0.5rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .code-content {
+    padding: 0.5rem;
+  }
+
+  .code-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .file-path {
+    margin-right: 0;
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .code-block {
+    min-height: 300px;
+    max-height: 400px;
+    font-size: 0.8rem;
+    padding: 0.75rem;
+  }
+
   .card {
     height: auto;
     min-height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .modal {
+    max-height: 95vh;
+  }
+
+  .code-content {
+    padding: 0.25rem;
+  }
+
+  .code-block {
+    min-height: 250px;
+    max-height: 350px;
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .code-header {
+    padding: 0.5rem;
+  }
+
+  .file-path {
+    font-size: 0.75rem;
+  }
+
+  .file-info {
+    font-size: 0.7rem;
   }
 }
 </style>
