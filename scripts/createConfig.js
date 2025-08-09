@@ -48,17 +48,41 @@ const buildInfoPlugin = (buildItem, needsWatch) => {
               id: moduleId,
               size: mainFile.modules[moduleId].code.length
             }));
+            
+            // 分析实际使用的依赖
+            const usedDeps = new Set();
+            const usedDevDeps = new Set();
+            
+            // 读取package.json用于版本信息
+            let packageJson;
+            try {
+              packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            } catch (error) {
+              console.warn('无法读取package.json:', error.message);
+              packageJson = { dependencies: {}, devDependencies: {} };
+            }
+            
+            // 分析模块中的依赖
+            Object.keys(mainFile.modules).forEach(moduleId => {
+              // 跳过node_modules中的依赖，只关注项目内的模块
+              if (moduleId.includes('node_modules/')) {
+                // 提取包名（去掉版本号等）
+                const packageName = moduleId.split('node_modules/')[1]?.split('/')[0];
+                if (packageName && !packageName.startsWith('.')) {
+                  // 检查是生产依赖还是开发依赖
+                  if (packageJson.dependencies && packageJson.dependencies[packageName]) {
+                    usedDeps.add(packageName);
+                  } else if (packageJson.devDependencies && packageJson.devDependencies[packageName]) {
+                    usedDevDeps.add(packageName);
+                  }
+                }
+              }
+            });
+            
+            buildInfo.dependencies = Array.from(usedDeps).sort();
+            buildInfo.devDependencies = Array.from(usedDevDeps).sort();
           }
         }
-      }
-
-      // 读取package.json获取依赖信息
-      try {
-        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-        buildInfo.dependencies = Object.keys(packageJson.dependencies || {});
-        buildInfo.devDependencies = Object.keys(packageJson.devDependencies || {});
-      } catch (error) {
-        console.warn('无法读取package.json:', error.message);
       }
 
       // 写入构建信息文件
