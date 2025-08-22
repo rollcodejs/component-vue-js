@@ -243,7 +243,7 @@
               </div>
             </div>
             <div class="code-block-wrapper">
-              <pre class="code-block"><code :class="getCodeLanguage()">{{ getCurrentCode() }}</code></pre>
+              <pre class="code-block"><code class="hljs" :class="getCodeLanguage()" v-html="highlightedCode"></code></pre>
             </div>
           </div>
         </div>
@@ -253,7 +253,15 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, nextTick } from "vue";
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import xml from 'highlight.js/lib/languages/xml';
+import typescript from 'highlight.js/lib/languages/typescript';
+import css from 'highlight.js/lib/languages/css';
+import lessLang from 'highlight.js/lib/languages/less';
+import jsonLang from 'highlight.js/lib/languages/json';
+import markdownLang from 'highlight.js/lib/languages/markdown';
 import {
   getBuildInfo,
   getComponentBuildInfo,
@@ -328,6 +336,51 @@ export default {
       },
     ]);
 
+    // 注册 highlight.js 语言（将 vue 映射为 xml/html 高亮）
+    hljs.registerLanguage('javascript', javascript);
+    hljs.registerLanguage('typescript', typescript);
+    hljs.registerLanguage('xml', xml);
+    hljs.registerLanguage('html', xml);
+    hljs.registerLanguage('vue', xml);
+    hljs.registerLanguage('css', css);
+    hljs.registerLanguage('less', lessLang);
+    hljs.registerLanguage('json', jsonLang);
+    hljs.registerLanguage('markdown', markdownLang);
+
+    const getHighlightLanguage = () => {
+      if (!activeTab.value) return 'plaintext';
+      const extension = activeTab.value.split('.').pop();
+      const map = {
+        vue: 'xml',
+        js: 'javascript',
+        ts: 'typescript',
+        html: 'xml',
+        css: 'css',
+        less: 'less',
+        scss: 'css',
+        json: 'json',
+        md: 'markdown'
+      };
+      return map[extension] || 'plaintext';
+    };
+
+    const highlightedCode = ref('');
+
+    const recomputeHighlight = async () => {
+      await nextTick();
+      const code = getCurrentCode();
+      const lang = getHighlightLanguage();
+      try {
+        if (lang === 'plaintext') {
+          highlightedCode.value = hljs.highlightAuto(code).value;
+        } else {
+          highlightedCode.value = hljs.highlight(code, { language: lang }).value;
+        }
+      } catch (e) {
+        highlightedCode.value = hljs.highlightAuto(code).value;
+      }
+    };
+
     const showCode = async (item) => {
       selectedItem.value = item;
       activeTab.value = item.files[0]?.name || "";
@@ -340,6 +393,7 @@ export default {
       
       // 动态加载文件内容
       await loadFileContents(item);
+      await recomputeHighlight();
     };
 
     const closeModal = () => {
@@ -370,11 +424,13 @@ export default {
             file.content = `// 加载文件失败: ${file.path}\n// 错误: ${fileError.message}\n\n请检查文件路径和网络连接。`;
           }
         }
+        await recomputeHighlight();
       } catch (error) {
         console.error('加载文件内容失败:', error);
         for (const file of item.files) {
           file.content = `// 加载文件失败: ${file.path}\n// 错误: ${error.message}\n\n请检查开发服务器是否正常运行。`;
         }
+        await recomputeHighlight();
       }
     };
 
@@ -496,6 +552,16 @@ export default {
       await Promise.all([loadBuildInfo(), loadComponentBuildInfo()]);
     });
 
+    watch(activeTab, async () => {
+      await recomputeHighlight();
+    });
+
+    watch(showModal, async (visible) => {
+      if (visible) {
+        await recomputeHighlight();
+      }
+    });
+
     return {
       components,
       pages,
@@ -513,6 +579,7 @@ export default {
       formatFileSize,
       getPackageType,
       formatBuildTime,
+      highlightedCode,
     };
   },
 };
@@ -1294,4 +1361,29 @@ export default {
     font-size: 0.7rem;
   }
 }
+</style>
+
+<!-- 将语法高亮颜色放到全局，避免 scoped 作用域导致不生效 -->
+<style>
+/* 基础 */
+.code-block .hljs { background: #1e1e1e; color: #d4d4d4; }
+
+/* 关键字与常见 token */
+.code-block .hljs-keyword { color: #ff79c6; }
+.code-block .hljs-string { color: #f1fa8c; }
+.code-block .hljs-number { color: #bd93f9; }
+.code-block .hljs-function,.code-block .hljs-title { color: #8be9fd; }
+.code-block .hljs-comment { color: #6272a4; font-style: italic; }
+.code-block .hljs-variable,.code-block .hljs-params,.code-block .hljs-code { color: #f8f8f2; }
+.code-block .hljs-attribute,.code-block .hljs-attr { color: #50fa7b; }
+.code-block .hljs-tag,.code-block .hljs-selector-tag,.code-block .hljs-name,.code-block .hljs-operator { color: #ff79c6; }
+.code-block .hljs-built_in,.code-block .hljs-type,.code-block .hljs-class,.code-block .hljs-namespace,.code-block .hljs-property { color: #8be9fd; }
+.code-block .hljs-literal,.code-block .hljs-bullet { color: #bd93f9; }
+.code-block .hljs-regexp { color: #f1fa8c; }
+.code-block .hljs-entity,.code-block .hljs-url,.code-block .hljs-preprocessor,.code-block .hljs-doctype { color: #8be9fd; }
+.code-block .hljs-quote { color: #f1fa8c; }
+.code-block .hljs-deletion { color: #ff5555; }
+.code-block .hljs-addition { color: #50fa7b; }
+.code-block .hljs-emphasis { font-style: italic; color: #f8f8f2; }
+.code-block .hljs-strong { font-weight: 700; color: #f8f8f2; }
 </style>
