@@ -1,6 +1,9 @@
-export { default } from "./Seckill.vue";
+import { Meta } from "lib/types/Defined";
+import Seckill from "./Seckill.vue";
 
-export const meta = {
+export default Seckill;
+
+export const meta: Meta = {
   name: "Seckill",
   label: "秒杀",
   setters: {
@@ -16,4 +19,4 @@ export const meta = {
       dataType: "boolean",
     },
   ],
-};
+} as const;

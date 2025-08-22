@@ -1,20 +1,22 @@
 <template>
   <button class="buttonComponent" :class="{ scale: isScale }">
-    <span :style="{ color: props.textColor.value }">{{ props.text }}</span>
+    <span :style="{ color: props.textColor?.value }">{{ props.text }}</span>
     <img :src="imageUrl" alt="" />
   </button>
 </template>
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from "vue";
-const props = defineProps({
-  text: String,
-  resource: Object,
-  textColor: Object,
-});
+import { Resource } from "lib/types/Resource";
+import { Color } from "lib/types/Color";
+const props = defineProps<{
+  text?: string;
+  resource?: Resource;
+  textColor?: Color;
+}>();
 const isScale = ref(false);
 
 const imageUrl = computed(() => {
-  return 'http://localhost:9000/rollcode' +  props.resource.src;
+  return "http://localhost:9000/rollcode" + (props.resource?.src ?? "");
 });
 
 const playAnimation = () => {

@@ -51,7 +51,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import animate from "animejs";
 import { ref } from "vue";
 import prize1Image from "./assets/prize1.png";
@@ -75,9 +75,10 @@ const isRunning = ref(false);
 const popupVisible = ref(false);
 const buttonActive = ref(false);
 const opened = ref(false);
-const selectedPrize = ref(null);
-const renderPrizeList = (count) => {
-  const list = [];
+interface Prize { name: string; img: string }
+const selectedPrize = ref<Prize | null>(null);
+const renderPrizeList = (count: number) => {
+  const list: Prize[] = [];
   for (let i = 0; i < count + 1; i++) {
     list.push(...PRIZE_LIST);
   }
@@ -89,7 +90,7 @@ const prize2BoxCount = ref(1);
 const prize3BoxCount = ref(1);
 
 const randomBoxCount = () => Math.floor(Math.random() * 10) + 4;
-const startLottery = (action) => {
+const startLottery = (action: string) => {
   console.log("prams:", action);
   if (isRunning.value) return;
   isRunning.value = true;
@@ -131,7 +132,7 @@ const startLottery = (action) => {
   const boxElements = document.querySelectorAll(
     ".lottery-prize .box-1, .lottery-prize .box-2, .lottery-prize .box-3"
   );
-  boxElements.forEach((element) => {
+  boxElements.forEach((element: Element) => {
     element.style.transform = "translateY(0)";
   });
   opened.value = false;

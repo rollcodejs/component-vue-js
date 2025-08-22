@@ -25,6 +25,7 @@
     "less": "^4.3.0",
     "playwright": "^1.55.0",
     "rollup": "^4.18.0",
+    "typescript": "^5.9.2",
     "vite": "^6.0.0",
     "vite-plugin-css-injected-by-js": "^3.5.1",
     "vite-plugin-lib-inject-css": "^2.2.2"

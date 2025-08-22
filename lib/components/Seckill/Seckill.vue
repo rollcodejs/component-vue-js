@@ -13,21 +13,16 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-const props = defineProps({
-  endTime: {
-    type: String,
-    default: "2025-12-12 23:59:59",
-  },
-});
+const props = defineProps<{ endTime?: string }>();
 
 
 const days = ref("00");
 const hours = ref("00");
 const minutes = ref("00");
 const seconds = ref("00");
-let timer = null;
+let timer: ReturnType<typeof setInterval> | null = null;
 const diffLength = ref(0);
 
 function updateCountdown() {
@@ -58,7 +53,7 @@ onUnmounted(() => {
 });
 
 defineExpose({
-  startSecKill: (action) => {
+  startSecKill: (action: boolean) => {
     if (diffLength.value > 0) {
       alert("秒杀未开始");
     } else {
