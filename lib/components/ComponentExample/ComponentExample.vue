@@ -5,11 +5,12 @@
     <button @click="clickHandler">点击按钮测试</button>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
+import type { Text } from "lib/types/Text";
 import { onMounted } from "vue";
 const props = defineProps({
   // 这里的属性对应meta中setters的key， 类型根据meta中setters的type来确定
-  text: String,
+  text: Text,
 });
 onMounted(() => {
   console.log("组件挂载完成");

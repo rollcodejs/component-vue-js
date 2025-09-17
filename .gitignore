@@ -1,3 +1,5 @@
 node_modules
 dist
 .idea
+.playwright-mcp
+public/build-report.json

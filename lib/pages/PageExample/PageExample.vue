@@ -9,7 +9,7 @@
     <slot name="popupRegion"></slot>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { onMounted } from "vue";
 const showToast = () => {
   alert("这是一条信息展示");

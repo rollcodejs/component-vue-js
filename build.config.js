@@ -1,22 +1,22 @@
 export default [
   {
     name: "Button",
-    path: "components/Button/index.js",
+    path: "lib/components/Button/index.ts",
   },
   {
     name: "Seckill",
-    path: "components/Seckill/index.js",
+    path: "lib/components/Seckill/index.ts",
   },
   {
     name: "Lottery",
-    path: "pages/Lottery/index.js",
+    path: "lib/pages/Lottery/index.ts",
   },
   {
     name: "ComponentExample",
-    path: "components/ComponentExample/index.js",
+    path: "lib/components/ComponentExample/index.ts",
   },
   {
     name: "PageExample",
-    path: "pages/PageExample/index.js",
+    path: "lib/pages/PageExample/index.ts",
   },
 ];

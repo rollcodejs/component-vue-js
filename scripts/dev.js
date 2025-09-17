@@ -1,49 +1,40 @@
-import { build, preview } from "vite";
+import { build } from "vite";
 import buildConfig from "../build.config.js";
 import { createConfig } from "./createConfig.js";
+import { generateBuildReport } from "./buildInfo.js";
 
-const PORT = 5173;
-const HtmlPlugin = () => {
-  return {
-    name: "html-transform",
-    transformIndexHtml(html) {
-      let ulTpl = '<ul class="ul-list">';
-      buildConfig.forEach((com) => {
-        const href = `http://localhost:${PORT}/${com.name}/${com.name}.js`;
-        ulTpl += `<li><span>${com.name}: </span> <a target="_blank" href="${href}">${href}</a></li>`;
-      });
-      ulTpl += "</ul>";
-	  return html.replace(/<div id="content">[\s\S]*<\/div>/, `<div id="content">${ulTpl}</div>`);
-    },
-  };
-};
-
-const previewServer = await preview({
-  // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
-  preview: {
-    port: PORT,
-    open: false,
-  },
-  server: {
-    host: "0.0.0.0",
-  },
-});
-
-const buildWatchHandler = (needsWatch) => {
-  build({
-    build: { watch: true },
-    plugins: [HtmlPlugin()],
+const buildWatchHandler = () => {
+  console.log("🚀 开始监听模式构建...");
+  console.log("📦 正在构建以下组件/页面:");
+  buildConfig.forEach((item) => {
+    console.log(`   - ${item.name}`);
   });
-  buildConfig.forEach((buildItem) => {
-    const config = createConfig(buildItem, needsWatch);
-    build({
+  console.log("");
+
+  const buildPromises = buildConfig.map((buildItem) => {
+    const config = createConfig(buildItem, true);
+    return build({
       ...config,
+      configFile: false, // 明确指定不使用根目录的vite.config.js
       build: {
         ...config.build,
         minify: false,
+        watch: true,
       },
     });
   });
+
+  // 监听构建完成事件
+  Promise.all(buildPromises).then(() => {
+    console.log("✅ 初始构建完成，开始监听文件变化...");
+    // 生成初始构建报告
+    setTimeout(() => {
+      console.log("\n📊 生成构建报告...");
+      generateBuildReport();
+    }, 1000); // 延迟1秒确保所有文件都写入完成
+  }).catch((error) => {
+    console.error("❌ 构建失败:", error);
+  });
 };
 
-buildWatchHandler(true);
+buildWatchHandler();

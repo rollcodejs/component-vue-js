@@ -1,4 +1,12 @@
-export { default } from "./Button.vue";
+import Button from "./Button.vue";
+
+export default Button;
+
+export interface ButtonProps {
+  text?: string;
+  resource?: { src: string };
+  textColor?: { value: string };
+}
 
 export const meta = {
   name: "Button",
@@ -17,7 +25,7 @@ export const meta = {
     textColor: {
       type: "Color",
       label: "文本颜色",
-    }
+    },
   },
   actions: [
     {
@@ -25,4 +33,4 @@ export const meta = {
       name: "playAnimation",
     },
   ],
-};
+} as const;
