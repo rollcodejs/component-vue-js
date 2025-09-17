@@ -9,6 +9,7 @@
     "lib": "node scripts/build.js",
     "lib:dev": "node scripts/dev.js",
     "app:dev": "vite",
+    "app:build": "vite build",
     "build:report": "node scripts/buildInfo.js"
   },
   "author": "",
@@ -27,6 +28,7 @@
     "rollup": "^4.18.0",
     "typescript": "^5.9.2",
     "vite": "^6.0.0",
+    "vite-plugin-cp": "^6.0.3",
     "vite-plugin-css-injected-by-js": "^3.5.1",
     "vite-plugin-lib-inject-css": "^2.2.2"
   },

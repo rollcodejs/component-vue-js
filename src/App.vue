@@ -517,7 +517,7 @@ export default {
         buildInfo: null,
         files: [
           { name: "Button.vue", path: "lib/components/Button/Button.vue" },
-          { name: "index.js", path: "lib/components/Button/index.js" },
+          { name: "index.ts", path: "lib/components/Button/index.ts" },
         ],
       },
       {
@@ -527,7 +527,7 @@ export default {
         buildInfo: null,
         files: [
           { name: "Seckill.vue", path: "lib/components/Seckill/Seckill.vue" },
-          { name: "index.js", path: "lib/components/Seckill/index.js" },
+          { name: "index.ts", path: "lib/components/Seckill/index.ts" },
         ],
       },
       {
@@ -541,8 +541,8 @@ export default {
             path: "lib/components/ComponentExample/ComponentExample.vue",
           },
           {
-            name: "index.js",
-            path: "lib/components/ComponentExample/index.js",
+            name: "index.ts",
+            path: "lib/components/ComponentExample/index.ts",
           },
         ],
       },
@@ -556,7 +556,7 @@ export default {
         buildInfo: null,
         files: [
           { name: "Lottery.vue", path: "lib/pages/Lottery/Lottery.vue" },
-          { name: "index.js", path: "lib/pages/Lottery/index.js" },
+          { name: "index.ts", path: "lib/pages/Lottery/index.ts" },
         ],
       },
       {
@@ -569,7 +569,7 @@ export default {
             name: "PageExample.vue",
             path: "lib/pages/PageExample/PageExample.vue",
           },
-          { name: "index.js", path: "lib/pages/PageExample/index.js" },
+          { name: "index.ts", path: "lib/pages/PageExample/index.ts" },
         ],
       },
     ]);
