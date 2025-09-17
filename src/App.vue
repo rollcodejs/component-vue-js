@@ -496,7 +496,6 @@ import jsonLang from "highlight.js/lib/languages/json";
 import markdownLang from "highlight.js/lib/languages/markdown";
 import {
   getBuildInfo,
-  getComponentBuildInfo,
   formatFileSize,
   getPackageType,
 } from "./utils/buildInfo.js";
@@ -776,23 +775,23 @@ export default {
       buildInfo.value = info;
     };
 
-    // 加载每个组件的构建信息
-    const loadComponentBuildInfo = async () => {
-      // 加载组件构建信息
+    // 从汇总报告分发构建信息到各个项
+    const populateItemBuildInfo = () => {
+      if (!buildInfo.value || !buildInfo.value.packages) return;
+      const byName = new Map(
+        buildInfo.value.packages.map((p) => [p.name, p])
+      );
       for (const component of components.value) {
-        const info = await getComponentBuildInfo(component.name);
-        component.buildInfo = info;
+        component.buildInfo = byName.get(component.name) || null;
       }
-
-      // 加载页面构建信息
       for (const page of pages.value) {
-        const info = await getComponentBuildInfo(page.name);
-        page.buildInfo = info;
+        page.buildInfo = byName.get(page.name) || null;
       }
     };
 
     onMounted(async () => {
-      await Promise.all([loadBuildInfo(), loadComponentBuildInfo()]);
+      await loadBuildInfo();
+      populateItemBuildInfo();
     });
 
     watch(activeTab, async () => {

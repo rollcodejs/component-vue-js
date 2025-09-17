@@ -1,7 +1,7 @@
 import { build } from 'vite'
 import buildConfig from '../build.config.js'
 import { createConfig } from './createConfig.js'
-import { generateBuildReport } from './buildInfo.js'
+import { collectBuildInfo, generateBuildReport } from './buildInfo.js'
 
 export const buildHandler = async (needsWatch) => {
 	console.log('🚀 开始构建...')
@@ -21,7 +21,8 @@ export const buildHandler = async (needsWatch) => {
 		// 生成构建报告
 		if (!needsWatch) {
 			console.log('\n📊 生成构建报告...')
-			generateBuildReport()
+			const buildInfos = collectBuildInfo()
+			generateBuildReport(buildInfos)
 		}
 	} catch (error) {
 		console.error('❌ 构建失败:', error)

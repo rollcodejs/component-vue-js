@@ -1,7 +1,7 @@
 // 构建信息工具函数
 export async function getBuildInfo() {
   try {
-    const response = await fetch('/dist/build-report.json');
+    const response = await fetch('/build-report.json');
     if (!response.ok) {
       throw new Error('无法加载构建报告');
     }
@@ -15,7 +15,7 @@ export async function getBuildInfo() {
 // 获取单个组件的构建信息
 export async function getComponentBuildInfo(componentName) {
   try {
-    const response = await fetch(`/dist/${componentName}/build-info.json`);
+    const response = await fetch(`/${componentName}/build-info.json`);
     if (!response.ok) {
       return null;
     }

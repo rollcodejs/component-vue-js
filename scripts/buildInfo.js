@@ -133,7 +133,7 @@ function generateBuildReport(buildInfos) {
     }
   };
 
-  const reportFile = path.join(__dirname, '..', 'dist', 'build-report.json');
+  const reportFile = path.join(__dirname, '..', 'public', 'build-report.json');
   try {
     fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
     console.log(`✅ 构建报告已生成: ${reportFile}`);
