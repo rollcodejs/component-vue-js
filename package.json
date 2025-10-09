@@ -6,11 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "npm run lib:dev & npm run app:dev",
-    "lib": "node scripts/build.js && npm run discover",
-    "lib:dev": "node scripts/dev.js && npm run discover",
-    "app:dev": "npm run discover && vite",
-    "app:build": "npm run discover && vite build",
-    "build:report": "node scripts/buildInfo.js",
+    "lib": "node scripts/build.js",
+    "lib:dev": "node scripts/dev.js",
+    "app:dev": "vite",
+    "app:build": "vite build",
+    "report": "node scripts/buildInfo.js",
     "discover": "node scripts/discover.js"
   },
   "author": "",
@@ -20,7 +20,6 @@
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-url": "^8.0.2",
-    
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "express": "^4.19.2",
