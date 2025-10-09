@@ -70,15 +70,15 @@ function collectPackages(rootDir, kind) {
     if (!fs.existsSync(indexTs)) continue;
 
     const indexContents = readFileSafe(indexTs);
-    const meta = extractMetaFromIndexTs(indexContents);
+    // const meta = extractMetaFromIndexTs(indexContents);
 
     const vueFile = findFirstVueFile(absDir);
     const relDir = toPosixRelative(rootDir, absDir);
     const relIndex = toPosixRelative(rootDir, indexTs);
     const relVue = vueFile ? toPosixRelative(rootDir, path.join(absDir, vueFile)) : null;
 
-    const name = meta.name || entryName;
-    const description = meta.label || meta.name || `自动发现的${kind === 'components' ? '组件' : '页面'}`;
+    const name = entryName;
+    // const description = meta.label || meta.name || `自动发现的${kind === 'components' ? '组件' : '页面'}`;
 
     const files = [];
     if (relVue) files.push({ name: path.basename(relVue), path: relVue });
@@ -86,7 +86,7 @@ function collectPackages(rootDir, kind) {
 
     results.push({
       name,
-      description,
+      // description,
       path: relDir,
       buildInfo: null,
       files,
