@@ -508,70 +508,27 @@ export default {
     const activeTab = ref("");
     const buildInfo = ref(null);
 
-    const components = ref([
-      {
-        name: "Button",
-        description: "一个可自定义的按钮组件，支持文本、颜色和动画效果",
-        path: "lib/components/Button",
-        buildInfo: null,
-        files: [
-          { name: "Button.vue", path: "lib/components/Button/Button.vue" },
-          { name: "index.ts", path: "lib/components/Button/index.ts" },
-        ],
-      },
-      {
-        name: "Seckill",
-        description: "秒杀活动组件，支持倒计时和商品展示",
-        path: "lib/components/Seckill",
-        buildInfo: null,
-        files: [
-          { name: "Seckill.vue", path: "lib/components/Seckill/Seckill.vue" },
-          { name: "index.ts", path: "lib/components/Seckill/index.ts" },
-        ],
-      },
-      {
-        name: "ComponentExample",
-        description: "组件开发示例，展示基本的组件结构",
-        path: "lib/components/ComponentExample",
-        buildInfo: null,
-        files: [
-          {
-            name: "ComponentExample.vue",
-            path: "lib/components/ComponentExample/ComponentExample.vue",
-          },
-          {
-            name: "index.ts",
-            path: "lib/components/ComponentExample/index.ts",
-          },
-        ],
-      },
-    ]);
+    const components = ref([]);
 
-    const pages = ref([
-      {
-        name: "Lottery",
-        description: "抽奖页面，支持多种奖品和抽奖动画",
-        path: "lib/pages/Lottery",
-        buildInfo: null,
-        files: [
-          { name: "Lottery.vue", path: "lib/pages/Lottery/Lottery.vue" },
-          { name: "index.ts", path: "lib/pages/Lottery/index.ts" },
-        ],
-      },
-      {
-        name: "PageExample",
-        description: "页面开发示例，展示基本的页面结构",
-        path: "lib/pages/PageExample",
-        buildInfo: null,
-        files: [
-          {
-            name: "PageExample.vue",
-            path: "lib/pages/PageExample/PageExample.vue",
-          },
-          { name: "index.ts", path: "lib/pages/PageExample/index.ts" },
-        ],
-      },
-    ]);
+    const pages = ref([]);
+
+    // 自动发现 lib 目录下的组件与页面
+    const loadDiscoveredData = async () => {
+      try {
+        const response = await fetch('/discovered.json');
+        if (!response.ok) {
+          throw new Error('无法加载发现数据');
+        }
+        const data = await response.json();
+        components.value = data.components || [];
+        pages.value = data.pages || [];
+      } catch (error) {
+        console.warn('加载发现数据失败:', error.message);
+        // 降级到空数组
+        components.value = [];
+        pages.value = [];
+      }
+    };
 
     // 注册 highlight.js 语言（将 vue 映射为 xml/html 高亮）
     hljs.registerLanguage("javascript", javascript);
@@ -790,6 +747,7 @@ export default {
     };
 
     onMounted(async () => {
+      await loadDiscoveredData();
       await loadBuildInfo();
       populateItemBuildInfo();
     });

@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2025-10-09T08:03:42.462Z",
+  "components": [
+    {
+      "name": "Button",
+      "description": "按钮",
+      "path": "lib/components/Button",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "Button.vue",
+          "path": "lib/components/Button/Button.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/Button/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "ComponentExample",
+      "description": "组件示例",
+      "path": "lib/components/ComponentExample",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "ComponentExample.vue",
+          "path": "lib/components/ComponentExample/ComponentExample.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/ComponentExample/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "Seckill",
+      "description": "秒杀",
+      "path": "lib/components/Seckill",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "Seckill.vue",
+          "path": "lib/components/Seckill/Seckill.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/Seckill/index.ts"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "lottery",
+      "description": "抽奖",
+      "path": "lib/pages/Lottery",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "Lottery.vue",
+          "path": "lib/pages/Lottery/Lottery.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/pages/Lottery/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "showToast",
+      "description": "提示",
+      "path": "lib/pages/PageExample",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "PageExample.vue",
+          "path": "lib/pages/PageExample/PageExample.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/pages/PageExample/index.ts"
+        }
+      ]
+    }
+  ]
+}

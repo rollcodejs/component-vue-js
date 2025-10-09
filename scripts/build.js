@@ -1,10 +1,57 @@
 import { build } from 'vite'
-import buildConfig from '../build.config.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'node:url'
 import { createConfig } from './createConfig.js'
 import { collectBuildInfo, generateBuildReport } from './buildInfo.js'
 
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+
+// 从 discovered.json 加载构建配置
+const loadBuildConfig = () => {
+  const discoveredPath = path.join(__dirname, '..', 'public', 'discovered.json')
+  
+  if (!fs.existsSync(discoveredPath)) {
+    console.error('❌ 未找到 discovered.json 文件，请先运行 npm run discover')
+    process.exit(1)
+  }
+  
+  try {
+    const discoveredData = JSON.parse(fs.readFileSync(discoveredPath, 'utf8'))
+    const buildConfig = []
+    
+    // 处理组件
+    if (discoveredData.components) {
+      discoveredData.components.forEach(component => {
+        buildConfig.push({
+          name: component.name,
+          path: `${component.path}/index.ts`
+        })
+      })
+    }
+    
+    // 处理页面
+    if (discoveredData.pages) {
+      discoveredData.pages.forEach(page => {
+        buildConfig.push({
+          name: page.name,
+          path: `${page.path}/index.ts`
+        })
+      })
+    }
+    
+    return buildConfig
+  } catch (error) {
+    console.error('❌ 解析 discovered.json 失败:', error.message)
+    process.exit(1)
+  }
+}
+
 export const buildHandler = async (needsWatch) => {
 	console.log('🚀 开始构建...')
+	
+	const buildConfig = loadBuildConfig()
+	console.log(`📦 发现 ${buildConfig.length} 个构建项`)
 	
 	const buildPromises = buildConfig.map((buildItem) => {
 		const config = createConfig(buildItem, needsWatch)
