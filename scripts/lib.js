@@ -47,6 +47,47 @@ const loadBuildConfig = () => {
   }
 }
 
+// 复制构建文件到 public 目录
+const copyBuildFilesToPublic = () => {
+  const distOutputDir = path.join(__dirname, '..', 'dist', 'output')
+  const publicOutputDir = path.join(__dirname, '..', 'public', 'output')
+  
+  if (!fs.existsSync(distOutputDir)) {
+    console.log('📁 dist/output 目录不存在，跳过复制')
+    return
+  }
+  
+  // 确保 public/output 目录存在
+  if (!fs.existsSync(publicOutputDir)) {
+    fs.mkdirSync(publicOutputDir, { recursive: true })
+  }
+  
+  // 复制所有构建文件到 public/output
+  const items = fs.readdirSync(distOutputDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+  
+  items.forEach(itemName => {
+    const sourceDir = path.join(distOutputDir, itemName)
+    const targetDir = path.join(publicOutputDir, itemName)
+    
+    // 确保目标目录存在
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true })
+    }
+    
+    // 复制文件
+    const files = fs.readdirSync(sourceDir)
+    files.forEach(file => {
+      const sourceFile = path.join(sourceDir, file)
+      const targetFile = path.join(targetDir, file)
+      fs.copyFileSync(sourceFile, targetFile)
+    })
+    
+    console.log(`📋 已复制 ${itemName} 到 public/output/`)
+  })
+}
+
 export const buildHandler = async (needsWatch) => {
 	console.log('🚀 开始构建...')
 	
@@ -64,6 +105,9 @@ export const buildHandler = async (needsWatch) => {
 	try {
 		await Promise.all(buildPromises)
 		console.log('✅ 构建完成!')
+		
+		// 复制构建文件到 public 目录
+		copyBuildFilesToPublic()
 		
 		// 生成构建报告
 		if (!needsWatch) {

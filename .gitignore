@@ -4,3 +4,4 @@ dist
 .playwright-mcp
 public/build-report.json
 public/discovered.json
+public/output

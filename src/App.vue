@@ -55,7 +55,7 @@
             </div>
             <div class="hero-stat">
               <div class="stat-number">2</div>
-              <div class="stat-label">页面模板</div>
+              <div class="stat-label">页面库</div>
             </div>
             <div class="hero-stat">
               <div class="stat-number">100%</div>
@@ -175,6 +175,18 @@
               </div>
               <div class="card-footer">
                 <span class="view-code">查看代码 →</span>
+                <button 
+                  v-if="component.buildInfo" 
+                  class="download-btn" 
+                  @click.stop="downloadComponent(component)"
+                  title="下载组件文件"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -321,6 +333,18 @@
               </div>
               <div class="card-footer">
                 <span class="view-code">查看代码 →</span>
+                <button 
+                  v-if="page.buildInfo" 
+                  class="download-btn" 
+                  @click="downloadComponent(page)"
+                  title="下载页面文件"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -716,6 +740,37 @@ export default {
       }
     };
 
+    // 下载组件/页面文件
+    const downloadComponent = async (item) => {
+      if (!item.buildInfo) {
+        console.warn('没有构建信息，无法下载');
+        return;
+      }
+
+      try {
+        const fileName = item.buildInfo.output.file;
+        // 使用 public/output 路径，这样在开发和生产环境都能正常工作
+        const downloadUrl = `./output/${item.name}/${fileName}`;
+        
+        // 创建下载链接
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = fileName;
+        link.style.display = 'none';
+        
+        // 添加到页面并触发下载
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log(`开始下载: ${fileName}`);
+      } catch (error) {
+        console.error('下载失败:', error);
+        // 可以添加用户友好的错误提示
+        alert('下载失败，请检查网络连接或文件是否存在');
+      }
+    };
+
     // 格式化构建时间
     const formatBuildTime = (timeString) => {
       return new Date(timeString).toLocaleString("zh-CN", {
@@ -775,6 +830,7 @@ export default {
       getCurrentFileInfo,
       getCodeLanguage,
       copyCode,
+      downloadComponent,
       buildInfo,
       formatFileSize,
       getPackageType,
@@ -1225,6 +1281,31 @@ body {
 
 .card:hover .view-code::after {
   transform: translateX(2px);
+}
+
+.download-btn {
+  background: linear-gradient(135deg, rgb(70 192 255), rgb(105, 167, 255));
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(70, 192, 255, 0.2);
+}
+
+.download-btn:hover {
+  background: linear-gradient(135deg, rgb(50, 150, 220), rgb(85, 140, 220));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(70, 192, 255, 0.3);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(70, 192, 255, 0.2);
 }
 
 .commands {
