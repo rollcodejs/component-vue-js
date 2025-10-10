@@ -141,9 +141,10 @@ export const createConfig = (buildItem, needsWatch) => {
     ],
     build: {
       ssr: false,
-      emptyOutDir: false,
+      emptyOutDir: true,
       outDir: `dist/${name}`,
       watch: needsWatch ? {} : null,
+      copyPublicDir: false,
       lib: {
         name,
         entry: join(__dirname, '..', path),
