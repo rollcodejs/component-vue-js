@@ -3,6 +3,9 @@ import vue from "@vitejs/plugin-vue";
 import cp from "vite-plugin-cp";
 
 export default defineConfig({
+  build: {
+    emptyOutDir: false,
+  },
   plugins: [
     vue(),
     cp({

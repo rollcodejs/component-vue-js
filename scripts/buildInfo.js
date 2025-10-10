@@ -16,22 +16,23 @@ function formatFileSize(bytes) {
 // 收集构建信息
 function collectBuildInfo() {
   const distDir = path.join(__dirname, '..', 'dist');
+  const outputDir = path.join(distDir, 'output');
   const buildInfos = [];
   
-  if (!fs.existsSync(distDir)) {
-    console.log('❌ dist 目录不存在，请先运行构建命令');
+  if (!fs.existsSync(outputDir)) {
+    console.log('❌ dist/output 目录不存在，请先运行构建命令');
     return;
   }
 
-  const packages = fs.readdirSync(distDir, { withFileTypes: true })
+  const packages = fs.readdirSync(outputDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
   console.log('📦 收集构建信息...\n');
 
   packages.forEach(packageName => {
-    const infoFile = path.join(distDir, packageName, 'build-info.json');
-    const jsFile = path.join(distDir, packageName, `${packageName}.js`);
+    const infoFile = path.join(outputDir, packageName, 'build-info.json');
+    const jsFile = path.join(outputDir, packageName, `${packageName}.js`);
     
     if (fs.existsSync(infoFile)) {
       try {

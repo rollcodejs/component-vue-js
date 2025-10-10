@@ -16,7 +16,7 @@ const buildInfoPlugin = (buildItem, needsWatch) => {
     name: 'build-info',
     writeBundle(options, bundle) {
       const { name } = buildItem;
-      const outputDir = `dist/${name}`;
+      const outputDir = `dist/output/${name}`;
       const infoFile = `${outputDir}/build-info.json`;
       
       // 收集构建信息
@@ -142,7 +142,7 @@ export const createConfig = (buildItem, needsWatch) => {
     build: {
       ssr: false,
       emptyOutDir: true,
-      outDir: `dist/${name}`,
+      outDir: `dist/output/${name}`,
       watch: needsWatch ? {} : null,
       copyPublicDir: false,
       lib: {
