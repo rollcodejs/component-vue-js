@@ -1,0 +1,216 @@
+{
+  "summary": {
+    "totalPackages": 5,
+    "totalSize": 669133,
+    "totalGzippedSize": 234083,
+    "buildTime": "2025-10-14T12:34:43.902Z"
+  },
+  "packages": [
+    {
+      "name": "ComponentExample",
+      "buildTime": "2025-10-14T12:34:43.769Z",
+      "entry": "lib/components/ComponentExample/index.ts",
+      "output": {
+        "file": "ComponentExample.js",
+        "format": "umd",
+        "size": 990,
+        "gzippedSize": 347,
+        "actualSize": 1092
+      },
+      "dependencies": [],
+      "devDependencies": [],
+      "bundleAnalysis": {
+        "modules": [
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/ComponentExample/ComponentExample.vue?vue&type=script&setup=true&lang.ts",
+            "size": 1033
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/ComponentExample/ComponentExample.vue",
+            "size": 0
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/ComponentExample/index.ts",
+            "size": 306
+          }
+        ]
+      }
+    },
+    {
+      "name": "PageExample",
+      "buildTime": "2025-10-14T12:34:43.772Z",
+      "entry": "lib/pages/PageExample/index.ts",
+      "output": {
+        "file": "PageExample.js",
+        "format": "umd",
+        "size": 795,
+        "gzippedSize": 278,
+        "actualSize": 875
+      },
+      "dependencies": [],
+      "devDependencies": [],
+      "bundleAnalysis": {
+        "modules": [
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/PageExample/PageExample.vue?vue&type=script&setup=true&lang.ts",
+            "size": 688
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/PageExample/PageExample.vue",
+            "size": 0
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/PageExample/index.ts",
+            "size": 105
+          }
+        ]
+      }
+    },
+    {
+      "name": "Button",
+      "buildTime": "2025-10-14T12:34:43.780Z",
+      "entry": "lib/components/Button/index.ts",
+      "output": {
+        "file": "Button.js",
+        "format": "umd",
+        "size": 1918,
+        "gzippedSize": 671,
+        "actualSize": 1954
+      },
+      "dependencies": [],
+      "devDependencies": [],
+      "bundleAnalysis": {
+        "modules": [
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Button/Button.vue?vue&type=script&setup=true&lang.ts",
+            "size": 1354
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Button/Button.vue?vue&type=style&index=0&scoped=b11c57ae&lang.less",
+            "size": 0
+          },
+          {
+            "id": "\u0000plugin-vue:export-helper",
+            "size": 173
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Button/Button.vue",
+            "size": 92
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Button/index.ts",
+            "size": 442
+          }
+        ]
+      }
+    },
+    {
+      "name": "Seckill",
+      "buildTime": "2025-10-14T12:34:43.849Z",
+      "entry": "lib/components/Seckill/index.ts",
+      "output": {
+        "file": "Seckill.js",
+        "format": "umd",
+        "size": 76899,
+        "gzippedSize": 26915,
+        "actualSize": 76953
+      },
+      "dependencies": [],
+      "devDependencies": [],
+      "bundleAnalysis": {
+        "modules": [
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Seckill/Seckill.vue?vue&type=script&setup=true&lang.ts",
+            "size": 3973
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Seckill/Seckill.vue?vue&type=style&index=0&scoped=308edec8&lang.css",
+            "size": 0
+          },
+          {
+            "id": "\u0000plugin-vue:export-helper",
+            "size": 173
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Seckill/Seckill.vue",
+            "size": 93
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/components/Seckill/index.ts",
+            "size": 268
+          }
+        ]
+      }
+    },
+    {
+      "name": "Lottery",
+      "buildTime": "2025-10-14T12:34:43.885Z",
+      "entry": "lib/pages/Lottery/index.ts",
+      "output": {
+        "file": "Lottery.js",
+        "format": "umd",
+        "size": 588207,
+        "gzippedSize": 205872,
+        "actualSize": 588259
+      },
+      "dependencies": [
+        "animejs"
+      ],
+      "devDependencies": [],
+      "bundleAnalysis": {
+        "modules": [
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/assets/button-0.png",
+            "size": 28174
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/assets/button-1.png",
+            "size": 25298
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/node_modules/animejs/lib/anime.es.js",
+            "size": 44334
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/assets/prize1.png",
+            "size": 17747
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/assets/prize2.png",
+            "size": 11531
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/assets/prize3.png",
+            "size": 12079
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/Lottery.vue?vue&type=script&setup=true&lang.ts",
+            "size": 7924
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/Lottery.vue?vue&type=style&index=0&scoped=87cff171&lang.less",
+            "size": 0
+          },
+          {
+            "id": "\u0000plugin-vue:export-helper",
+            "size": 173
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/Lottery.vue",
+            "size": 93
+          },
+          {
+            "id": "/Users/xuzhenzhao/repo/rollcodejs-plugins-template/lib/pages/Lottery/index.ts",
+            "size": 131
+          }
+        ]
+      }
+    }
+  ],
+  "dependencies": {
+    "production": [
+      "animejs"
+    ],
+    "development": []
+  }
+}

@@ -5,11 +5,8 @@
   "main": "vite.config.js",
   "type": "module",
   "scripts": {
-    "dev": "npm run lib:dev & npm run app:dev",
-    "lib": "node scripts/lib.js",
-    "lib:dev": "node scripts/dev.js",
-    "app:dev": "vite",
-    "app:build": "vite build",
+    "lib": "npm run discover && node scripts/lib.js",
+    "lib:dev": "npm run discover && node scripts/dev.js",
     "report": "node scripts/buildInfo.js",
     "discover": "node scripts/discover.js"
   },

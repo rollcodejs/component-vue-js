@@ -10,14 +10,29 @@ import fs from 'fs';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-// 自定义插件：生成构建信息
+// 全局构建信息收集器
+const buildInfoCollector = {
+  infos: [],
+  
+  addInfo(info) {
+    this.infos.push(info);
+  },
+  
+  getAllInfos() {
+    return this.infos;
+  },
+  
+  clear() {
+    this.infos = [];
+  }
+};
+
+// 自定义插件：收集构建信息（不生成单独文件）
 const buildInfoPlugin = (buildItem, needsWatch) => {
   return {
     name: 'build-info',
     writeBundle(options, bundle) {
       const { name } = buildItem;
-      const outputDir = `dist/output/${name}`;
-      const infoFile = `${outputDir}/build-info.json`;
       
       // 收集构建信息
       const buildInfo = {
@@ -85,23 +100,16 @@ const buildInfoPlugin = (buildItem, needsWatch) => {
         }
       }
 
-      // 写入构建信息文件
-      try {
-        if (!fs.existsSync(outputDir)) {
-          fs.mkdirSync(outputDir, { recursive: true });
-        }
-        fs.writeFileSync(infoFile, JSON.stringify(buildInfo, null, 2));
-        
-        // 在watch模式下，每次构建都显示信息
-        if (needsWatch) {
-          const size = buildInfo.output.size;
-          const gzipSize = buildInfo.output.gzippedSize;
-          console.log(`✅ ${name}: ${formatFileSize(size)} (${formatFileSize(gzipSize)} gzipped)`);
-        } else {
-          console.log(`✅ 构建信息已生成: ${infoFile}`);
-        }
-      } catch (error) {
-        console.error('写入构建信息失败:', error.message);
+      // 添加到全局收集器
+      buildInfoCollector.addInfo(buildInfo);
+      
+      // 在watch模式下，每次构建都显示信息
+      if (needsWatch) {
+        const size = buildInfo.output.size;
+        const gzipSize = buildInfo.output.gzippedSize;
+        console.log(`✅ ${name}: ${formatFileSize(size)} (${formatFileSize(gzipSize)} gzipped)`);
+      } else {
+        console.log(`✅ ${name} 构建完成`);
       }
     }
   };
@@ -142,7 +150,7 @@ export const createConfig = (buildItem, needsWatch) => {
     build: {
       ssr: false,
       emptyOutDir: true,
-      outDir: `dist/output/${name}`,
+      outDir: `dist/${name}`,
       watch: needsWatch ? {} : null,
       copyPublicDir: false,
       lib: {
@@ -162,3 +170,6 @@ export const createConfig = (buildItem, needsWatch) => {
     }
   });
 };
+
+// 导出构建信息收集器
+export { buildInfoCollector };
