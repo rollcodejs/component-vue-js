@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-14T12:34:42.906Z",
+  "generatedAt": "2025-11-05T01:24:31.306Z",
   "components": [
     {
       "name": "Button",
@@ -28,6 +28,21 @@
         {
           "name": "index.ts",
           "path": "lib/components/ComponentExample/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "LuckCanvas",
+      "path": "lib/components/LuckCanvas",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "LuckCanvas.vue",
+          "path": "lib/components/LuckCanvas/LuckCanvas.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/LuckCanvas/index.ts"
         }
       ]
     },
