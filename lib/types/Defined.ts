@@ -1,3 +1,11 @@
+import { Color } from "./Color";
+import { CustomEnum } from "./CustomEnum";
+import { Group } from "./Group";
+import { Resource } from "./Resource";
+import { Time } from "./Time";
+import { Select } from "./Select";
+import { Switch } from "./Switch";
+
 export type Meta = {
   name: string;
   label: string;
@@ -15,9 +23,21 @@ type Setter = {
     | "Color"
     | "Switch"
     | "Select"
-    | "CustomEnum";
+    | "CustomEnum"
+    | "Date"
+    | "Time";
   label: string;
-  default?: any;
+  default?:
+    | Text
+    | Date
+    | Time
+    | Group
+    | GroupArray
+    | Resource
+    | Color
+    | Switch
+    | Select
+    | CustomEnum;
 };
 
 export type Action = {
