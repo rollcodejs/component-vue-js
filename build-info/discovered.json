@@ -1,6 +1,21 @@
 {
-  "generatedAt": "2025-11-05T01:24:31.306Z",
+  "generatedAt": "2025-11-05T09:09:42.304Z",
   "components": [
+    {
+      "name": "BaiduMap",
+      "path": "lib/components/BaiduMap",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "BaiduMap.vue",
+          "path": "lib/components/BaiduMap/BaiduMap.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/BaiduMap/index.ts"
+        }
+      ]
+    },
     {
       "name": "Button",
       "path": "lib/components/Button",

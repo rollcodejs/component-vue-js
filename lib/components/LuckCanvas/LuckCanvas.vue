@@ -43,7 +43,6 @@ export default {
     isEnd() {
       if (!this.endDate) return false;
       const date = dayjs(this.endDate.modelValue).endOf("day");
-      console.log(date, dayjs().isAfter(date), 12312);
       return dayjs().isAfter(date);
     },
     formattedPrizes() {
@@ -54,7 +53,7 @@ export default {
           fonts: [{ text: p.name, top: "10%" }],
           imgs: [
             {
-              src: prefix + p.img.src,
+              src: p.img.src ? prefix + p.img.src : undefined,
               width: 60,
               height: 100,
             },

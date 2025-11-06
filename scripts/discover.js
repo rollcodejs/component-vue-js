@@ -99,7 +99,7 @@ function collectPackages(rootDir, kind) {
 
 function main() {
   const projectRoot = path.join(__dirname, '..');
-  const outDir = path.join(projectRoot, 'build-info');
+  const outDir = path.join(projectRoot, 'dist');
   ensureDir(outDir);
 
   const components = collectPackages(projectRoot, 'components');

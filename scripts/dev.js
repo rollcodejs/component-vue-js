@@ -9,7 +9,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 // 从 discovered.json 加载构建配置
 const loadBuildConfig = () => {
-  const discoveredPath = path.join(__dirname, '..', 'build-info', 'discovered.json')
+  const discoveredPath = path.join(__dirname, '..', 'dist', 'discovered.json')
   
   if (!fs.existsSync(discoveredPath)) {
     console.error('❌ 未找到 discovered.json 文件，请先运行 npm run discover')

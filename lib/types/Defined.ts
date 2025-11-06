@@ -5,6 +5,7 @@ import { Resource } from "./Resource";
 import { Time } from "./Time";
 import { Select } from "./Select";
 import { Switch } from "./Switch";
+import { Text } from "./Text";
 
 export type Meta = {
   name: string;
