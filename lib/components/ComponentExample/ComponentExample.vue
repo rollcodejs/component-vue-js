@@ -6,7 +6,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Text } from "lib/types/Text";
 import { onMounted } from "vue";
 const props = defineProps({
   // 这里的属性对应meta中setters的key， 类型根据meta中setters的type来确定

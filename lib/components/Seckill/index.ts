@@ -7,8 +7,12 @@ export const meta: Meta = {
   name: "Seckill",
   label: "秒杀",
   setters: {
+    endDate: {
+      type: "Date",
+      label: "结束日期",
+    },
     endTime: {
-      type: "Text",
+      type: "Time",
       label: "结束时间",
     },
   },

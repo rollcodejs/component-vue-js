@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch, onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 
 const props = defineProps<{
   lng?: string | number; // 经度
@@ -188,6 +188,21 @@ onBeforeUnmount(() => {
 .baidu-map-container {
   width: 100%;
   height: 100%;
+  &:after {
+    content: "请先检查配置";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 14px;
+    line-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .map-container {
