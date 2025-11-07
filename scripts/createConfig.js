@@ -153,6 +153,11 @@ export const createConfig = (buildItem, needsWatch) => {
         NODE_ENV: "production",
       },
     },
+    resolve: {
+      alias: {
+        lib: join(__dirname, "..", "lib"),
+      },
+    },
     plugins: [
       resolve({
         preferBuiltins: false,
