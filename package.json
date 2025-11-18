@@ -1,12 +1,12 @@
 {
   "name": "component-vue-js",
   "version": "1.0.0",
-  "description": "# 如何测试",
   "main": "vite.config.js",
   "type": "module",
   "scripts": {
     "lib": "npm run discover && node scripts/lib.js",
     "lib:dev": "npm run discover && node scripts/dev.js",
+    "serve": "npx serve ./dist -p 3001 -C",
     "report": "node scripts/buildInfo.js",
     "discover": "node scripts/discover.js"
   },
