@@ -1,16 +1,14 @@
 {
   "name": "component-vue-js",
   "version": "1.0.0",
-  "description": "# 如何测试",
   "main": "vite.config.js",
   "type": "module",
   "scripts": {
-    "dev": "npm run lib:dev & npm run app:dev",
-    "lib": "node scripts/build.js",
-    "lib:dev": "node scripts/dev.js",
-    "app:dev": "vite",
-    "app:build": "vite build",
-    "build:report": "node scripts/buildInfo.js"
+    "lib": "npm run discover && node scripts/lib.js",
+    "lib:dev": "npm run discover && node scripts/dev.js",
+    "serve": "npx serve ./dist -p 3001 -C",
+    "report": "node scripts/buildInfo.js",
+    "discover": "node scripts/discover.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +17,7 @@
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-url": "^8.0.2",
+    "@types/qrcode": "^1.5.6",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "express": "^4.19.2",
@@ -33,6 +32,11 @@
     "vite-plugin-lib-inject-css": "^2.2.2"
   },
   "dependencies": {
-    "animejs": "^3.2.2"
+    "@chenfengyuan/vue-qrcode": "^2.0.0",
+    "@lucky-canvas/vue": "^0.1.11",
+    "animejs": "^3.2.2",
+    "dayjs": "^1.11.19",
+    "qrcode": "^1.5.4",
+    "ufo": "^1.6.1"
   }
 }

@@ -14,9 +14,14 @@
   </div>
 </template>
 <script setup lang="ts">
+import dayjs from "dayjs/esm";
+import { Time } from "lib/types/Time";
+import { Date } from "lib/types/Date";
 import { ref, onMounted, onUnmounted } from "vue";
-const props = defineProps<{ endTime?: string }>();
-
+const props = defineProps<{
+  endDate?: Date;
+  endTime?: Time;
+}>();
 
 const days = ref("00");
 const hours = ref("00");
@@ -26,10 +31,9 @@ let timer: ReturnType<typeof setInterval> | null = null;
 const diffLength = ref(0);
 
 function updateCountdown() {
-  const [date, time] = props.endTime?.split(" ") || ["", ""];
-  const endTime = new Date(`${date}T${time}`);
-  const now = new Date();
-  let diff = Math.max(0, endTime - now);
+  const endTime = dayjs(props?.endDate?.value + " " + props.endTime?.value);
+  const now = dayjs();
+  let diff = Math.max(0, endTime.diff(now));
   diffLength.value = diff;
   const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   diff -= d * 1000 * 60 * 60 * 24;
@@ -58,7 +62,7 @@ defineExpose({
       alert("秒杀未开始");
     } else {
       alert("秒杀已结束");
-    } 
+    }
   },
 });
 </script>

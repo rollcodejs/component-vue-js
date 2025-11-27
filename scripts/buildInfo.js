@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
+import { buildInfoCollector } from './createConfig.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -16,22 +17,42 @@ function formatFileSize(bytes) {
 // 收集构建信息
 function collectBuildInfo() {
   const distDir = path.join(__dirname, '..', 'dist');
+  const outputDir = path.join(distDir, '');
   const buildInfos = [];
   
-  if (!fs.existsSync(distDir)) {
+  if (!fs.existsSync(outputDir)) {
     console.log('❌ dist 目录不存在，请先运行构建命令');
     return;
   }
 
-  const packages = fs.readdirSync(distDir, { withFileTypes: true })
+  // 首先尝试从构建信息收集器获取
+  const collectedInfos = buildInfoCollector.getAllInfos();
+  if (collectedInfos.length > 0) {
+    console.log('📦 从构建过程收集信息...\n');
+    
+    // 为每个信息添加实际文件大小
+    collectedInfos.forEach(buildInfo => {
+      const jsFile = path.join(outputDir, buildInfo.name, `${buildInfo.name}.js`);
+      if (fs.existsSync(jsFile)) {
+        const stats = fs.statSync(jsFile);
+        buildInfo.output.actualSize = stats.size;
+      }
+      buildInfos.push(buildInfo);
+    });
+    
+    return buildInfos;
+  }
+
+  // 如果收集器为空，回退到读取文件的方式（向后兼容）
+  console.log('📦 从文件系统收集构建信息...\n');
+  
+  const packages = fs.readdirSync(outputDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
-  console.log('📦 收集构建信息...\n');
-
   packages.forEach(packageName => {
-    const infoFile = path.join(distDir, packageName, 'build-info.json');
-    const jsFile = path.join(distDir, packageName, `${packageName}.js`);
+    const infoFile = path.join(outputDir, packageName, 'build-info.json');
+    const jsFile = path.join(outputDir, packageName, `${packageName}.js`);
     
     if (fs.existsSync(infoFile)) {
       try {
@@ -133,7 +154,7 @@ function generateBuildReport(buildInfos) {
     }
   };
 
-  const reportFile = path.join(__dirname, '..', 'public', 'build-report.json');
+  const reportFile = path.join(__dirname, '..', 'dist', 'build-report.json');
   try {
     fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
     console.log(`✅ 构建报告已生成: ${reportFile}`);

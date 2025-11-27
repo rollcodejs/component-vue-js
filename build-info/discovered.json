@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2025-11-05T09:09:42.304Z",
+  "components": [
+    {
+      "name": "BaiduMap",
+      "path": "lib/components/BaiduMap",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "BaiduMap.vue",
+          "path": "lib/components/BaiduMap/BaiduMap.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/BaiduMap/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "path": "lib/components/Button",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "Button.vue",
+          "path": "lib/components/Button/Button.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/Button/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "ComponentExample",
+      "path": "lib/components/ComponentExample",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "ComponentExample.vue",
+          "path": "lib/components/ComponentExample/ComponentExample.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/ComponentExample/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "LuckCanvas",
+      "path": "lib/components/LuckCanvas",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "LuckCanvas.vue",
+          "path": "lib/components/LuckCanvas/LuckCanvas.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/LuckCanvas/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "Seckill",
+      "path": "lib/components/Seckill",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "Seckill.vue",
+          "path": "lib/components/Seckill/Seckill.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/components/Seckill/index.ts"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "Lottery",
+      "path": "lib/pages/Lottery",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "Lottery.vue",
+          "path": "lib/pages/Lottery/Lottery.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/pages/Lottery/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "PageExample",
+      "path": "lib/pages/PageExample",
+      "buildInfo": null,
+      "files": [
+        {
+          "name": "PageExample.vue",
+          "path": "lib/pages/PageExample/PageExample.vue"
+        },
+        {
+          "name": "index.ts",
+          "path": "lib/pages/PageExample/index.ts"
+        }
+      ]
+    }
+  ]
+}
