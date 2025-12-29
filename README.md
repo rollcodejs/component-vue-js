@@ -1,97 +1,78 @@
-# RollCodeJS 插件模板
+# RollCode 组件开发模板
 
-这是一个用于开发 RollCodeJS 插件的 Vue.js 模板项目。
+> RollCode 低代码系统的官方组件开发模板
 
-## 功能特性
+## 📖 简介
 
-### 🧩 组件管理
-- **Button**: 可自定义的按钮组件，支持文本、颜色和动画效果
-- **Seckill**: 秒杀活动组件，支持倒计时和商品展示
-- **ComponentExample**: 组件开发示例，展示基本的组件结构
+本项目是 RollCode 低代码平台的官方组件开发模板，用于快速创建和开发自定义组件。通过本模板，你可以轻松开发出符合 RollCode 规范的 Vue 组件。
 
-### 📄 页面管理
-- **Lottery**: 抽奖页面，支持多种奖品和抽奖动画
-- **PageExample**: 页面开发示例，展示基本的页面结构
+关于 RollCode 的更多介绍，请访问 [RollCode 官网](https://www.rollcode.cn)。
 
-### 🔍 查看代码功能 ✨
-新增的"查看代码"功能允许开发者：
-- 点击卡片上的"查看代码"按钮打开模态框
-- 在模态框中查看组件的真实源码（Vue 文件、JS 文件等）
-- 支持多文件标签页切换
-- 显示完整的文件路径
-- 一键复制代码到剪贴板
-- 响应式设计，支持移动端
+## 🚀 快速开始
 
-### 📊 构建统计
-- 显示每个组件的构建大小和压缩后大小
-- 显示构建时间和依赖信息
-- 总体构建统计概览
-
-## 开发命令
+### 安装依赖
 
 ```bash
-# 开发模式 - 监听文件变化并自动重新构建
+npm install
+```
+
+### 开发模式
+
+1. 启动开发服务器：
+
+```bash
 npm run lib:dev
+```
 
-# 生产构建 - 输出到 dist 目录
+2. 在另一个终端启动静态文件服务：
+
+```bash
+npm run serve
+```
+
+3. 打开 RollCode 开发控制台（可替换为自己的私有化部署地址），填入你的开发地址：
+
+```
+https://www.rollcode.cn/console/dev?extensionDevHref=http://localhost:3001
+```
+
+> 💡 提示：将 `http://localhost:3001` 替换为你实际的开发地址
+
+## 📚 开发文档
+
+详细的组件开发指南，请参考：
+
+- [RollCode 自定义组件开发文档](https://docs.rollcode.cn/developer/develop-guide/custom-component)
+
+## 📦 构建
+
+构建生产版本：
+
+```bash
 npm run lib
-
-# 应用开发 - 启动 Vue 应用开发服务器
-npm run app:dev
-
-# 构建报告 - 查看详细的构建信息和包分析
-npm run build:report
 ```
 
-## 项目结构
+## 📝 项目结构
 
 ```
-rollcodejs-plugins-template/
-├── lib/                    # 组件和页面库
-│   ├── components/         # Vue 组件
-│   └── pages/             # Vue 页面
-├── src/                    # 应用源码
-│   ├── App.vue            # 主应用组件
-│   └── main.js            # 应用入口
+├── lib/                    # 组件源码目录
+│   ├── components/         # 组件目录
+│   ├── pages/              # 页面目录
+│   ├── hooks/              # 自定义 Hooks
+│   ├── types/              # 类型定义
+│   └── utils/              # 工具函数
+├── dist/                   # 构建输出目录
 ├── scripts/                # 构建脚本
-└── public/                 # 静态资源
+└── package.json
 ```
 
-## 技术栈
+## 🔗 相关链接
 
-- **Vue 3** - 前端框架
-- **Vite** - 构建工具
-- **Rollup** - 库打包工具
-- **Less** - CSS 预处理器
+- [RollCode 官网](https://www.rollcode.cn)
+- [RollCode 开发文档](https://docs.rollcode.cn)
+- [组件开发指南](https://docs.rollcode.cn/developer/develop-guide/custom-component)
 
-## 使用方法
+## 📄 许可证
 
-1. 克隆项目
-2. 安装依赖：`npm install`
-3. 启动开发服务器：`npm run app:dev`
-4. 在浏览器中打开应用
-5. 点击任意组件的"查看代码"按钮查看源码
+ISC
 
-## 查看代码功能说明
-
-### 功能特点
-- **实时加载**: 动态从文件系统加载真实的源码内容
-- **多文件支持**: 支持查看组件的所有相关文件（.vue, .js 等）
-- **语法友好**: 使用等宽字体和深色主题，代码更易读
-- **复制功能**: 一键复制代码到剪贴板，提高开发效率
-- **响应式设计**: 在移动设备上也能良好显示
-
-### 使用方法
-1. 在主页面上点击任意组件或页面卡片
-2. 点击卡片底部的"查看代码 →"按钮
-3. 在打开的模态框中可以：
-   - 查看文件路径
-   - 切换不同的文件标签页
-   - 复制代码内容
-   - 关闭模态框
-
-这个功能特别适合：
-- 代码审查和调试
-- 学习其他组件的实现方式
-- 快速复制代码片段
-- 展示项目结构
